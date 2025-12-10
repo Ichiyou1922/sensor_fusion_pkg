@@ -24,7 +24,8 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'fusion_node = sensor_fusion_pkg.fusion_node:main'
+            'noisy_sensor = sensor_fusion_pkg.noisy_sensor:main',
+            'fusion_node = sensor_fusion_pkg.fusion_node:main',
         ],
     },
 )
