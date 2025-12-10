@@ -1,0 +1,28 @@
+name: ROS 2 CI
+
+on: [push, pull_request]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    container:
+      image: osrf/ros:humble-desktop
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build
+        shell: bash
+        run: | 
+          source /opt/ros/humble/setup.bash
+          mkdir -p ros2_ws/src
+          cp -r $GITHUB_WORKSPACE ros2_ws/src/
+          cd ros2_ws
+          colcon build --packages-select sensor_fusion_pkg
+
+      - name: Test
+        shell: bash
+        run: |
+          surce /opt/ros/humble/setup.bash
+          cd ros2_ws
+          colcon test --packages-select sensor_fusion_pkg
+          colcon test-result --verbose
