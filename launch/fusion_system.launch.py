@@ -24,8 +24,8 @@ def generate_launch_description():
             executable='fusion_node',
             name='fusion_center',
             parameters=[{
-                'r_sensor1': 1.0, 
-                'r_sensor2': 5.0, 
+                'r_sensor1': 1.0,
+                'r_sensor2': 5.0,
                 'q_process_noise': 0.01
             }]
         )

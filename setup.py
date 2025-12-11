@@ -14,7 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share', package_name, 'launch'), glob('launch/*.launch.py')),
     ],
-    install_requires=['setuptools'],
+    install_requires=['setuptools, 'numpy'],
     zip_safe=True,
     maintainer='Kazuha Mogi',
     maintainer_email='mogi2fruits.kazu@gmail.com',
