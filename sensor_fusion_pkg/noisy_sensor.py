@@ -2,12 +2,13 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64
 import random
+import sys
 
 class NoisySensor(Node):
     def __init__(self):
         super().__init__('noisy_sensor')
         # ノイズの分散とセンサID
-        self.declare_parameter('variance', 1.0).value
+        self.declare_parameter('variance', 1.0)
         self.declare_parameter('sensor_id', 1)
 
         self.variance = self.get_parameter('variance').value
@@ -16,7 +17,7 @@ class NoisySensor(Node):
         topic_name = f'sensor_{self.sensor_id}/data'
         self.publisher = self.create_publisher(Float64, topic_name, 10)
 
-        self.timer = self.create_timer(0.1, self.publish_data) # 10Hz
+        self.timer = self.create_timer(0.1, self.publish_data) # 10Hzでデータ送信
         self.true_value = 25.0 # 室温25度など
 
         self.get_logger().info(f'Sensor {self.sensor_id} started. Variance: {self.variance}')

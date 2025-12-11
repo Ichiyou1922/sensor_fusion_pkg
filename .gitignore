@@ -1,0 +1,8 @@
+echo "build/" >> .gitignore
+echo "install/" >> .gitignore
+echo "log/" >> .gitignore
+echo "__pycache__/" >> .gitignore
+
+git add .gitignore
+git commit -m "Ignore build artifacts"
+git push
