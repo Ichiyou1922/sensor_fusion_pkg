@@ -6,6 +6,23 @@ from std_msgs.msg import Float64, Float64MultiArray
 from .kalman_filters import KalmanFilter
 
 
+def validate_dim_and_topics(dim_z: int, sensor_topics):
+    """
+    dim_zとsensor_topicsの整合性をチェックするバリデータ
+    len(sensor_topics) == dim_z でなければならない
+    """
+    if not isinstance(dim_z, int) or dim_z <= 0:
+        raise ValueError("dim_z must be a positive integer")
+
+    if not isinstance(sensor_topics, (list, tuple)):
+        raise ValueError("sensor_topics must be a list or tuple of topic names")
+
+    if len(sensor_topics) != dim_z:
+        raise ValueError(
+            f"dim_z ({dim_z}) and number of sensor_topics ({len(sensor_topics)}) do not match"
+        )
+
+
 class GenericKalmanNode(Node):
     def __init__(self):
         super().__init__('generic_kf')
@@ -15,6 +32,8 @@ class GenericKalmanNode(Node):
         self.dim_z = self.declare_parameter('dim_z').value
         self.sensor_topics = self.declare_parameter('sensor_topics').value
         self.output_topic = self.declare_parameter('output_topic', '/kf_state').value
+
+        validate_dim_and_topics(self.dim_z, self.sensor_topics)
 
         # matrices: flat lists
         F_list = self.declare_parameter('F').value
