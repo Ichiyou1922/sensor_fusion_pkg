@@ -13,8 +13,10 @@ class NoisySensor(Node):
         self.variance = self.get_parameter('variance').value
         self.sensor_id = self.get_parameter('sensor_id').value
 
+        self.sigma = self.variance ** 0.5
+
         topic_name = f'sensor_{self.sensor_id}/data'
-        self.publisher = self.create_publisher(Float64, topic_name, 10)
+        self.publisher_ = self.create_publisher(Float64, topic_name, 10)
 
         self.timer = self.create_timer(0.1, self.publish_data) # 10Hzでデータ送信
         self.true_value = 25.0 # 室温25度など
@@ -24,11 +26,11 @@ class NoisySensor(Node):
     def publish_data(self):
         msg = Float64()
         # ガウス分布に従うノイズを加える->N(mu, sigma^2)
-        noise = random.gauss(0, self.variance ** 0.5) # random.gaussはsigmaなので平方根を取る
+        noise = random.gauss(0, self.sigma)
         msg.data = self.true_value + noise
         self.publisher_.publish(msg)
         # デバッグ用
-        self.get_logger().info(f'Sendor {self.sensor_id}: {msg.data:.4} (Var: {self.variance})')
+        #self.get_logger().info(f'Sendor {self.sensor_id}: {msg.data:.4} (Var: {self.variance})')
 
 def main(args=None):
     rclpy.init(args=args)
