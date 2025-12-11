@@ -2,7 +2,7 @@ import numpy as np
 from sensor_fusion_pkg.kalman_filters import KalmanFilter
 
 
-# predict(), update()のテスト 
+# predict(), update()のテスト
 def test_kalman_1d_no_noise_2():
     # 1次元の理想的なモデル
     x0 = np.array([0.0])        # 初期状態 x0 = 0
@@ -23,4 +23,3 @@ def test_kalman_1d_no_noise_2():
     # 理論的に x は 10，P は 0 になっていなければならない
     assert np.allclose(kf.x, np.array([10.0]))
     assert np.allclose(kf.P, np.array([[0.0]]))
-

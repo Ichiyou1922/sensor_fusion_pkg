@@ -1,0 +1,64 @@
+[1m============================= test session starts ==============================[0m
+platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0
+cachedir: build/sensor_fusion_pkg/.pytest_cache
+rootdir: /home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg
+plugins: ament-xmllint-0.12.14, ament-lint-0.12.14, launch-testing-1.0.11, ament-flake8-0.12.14, ament-pep257-0.12.14, launch-testing-ros-0.19.12, ament-copyright-0.12.14, anyio-4.11.0, hydra-core-1.3.2, typeguard-4.4.4, cov-3.0.0, colcon-core-0.20.1
+[1mcollecting ... [0m[1m
+collected 4 items                                                              [0m
+
+sensor_fusion_pkg/test_kalman.py [32m.[0m[32m                                       [ 25%][0m
+test/test_copyright.py [33ms[0m[32m                                                 [ 50%][0m
+test/test_flake8.py [31mF[0m[31m                                                    [ 75%][0m
+test/test_pep257.py [32m.[0m[31m                                                    [100%][0m
+
+=================================== FAILURES ===================================
+[31m[1m_________________________________ test_flake8 __________________________________[0m
+[1m[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py[0m:161: in load_plugin
+    [96mself[39;49;00m._load()[90m[39;49;00m
+[1m[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py[0m:138: in _load
+    [96mself[39;49;00m._plugin = [96mself[39;49;00m.entry_point.load()[90m[39;49;00m
+[1m[31m/usr/lib/python3.10/importlib/metadata/__init__.py[0m:173: in load
+    [94mreturn[39;49;00m functools.reduce([96mgetattr[39;49;00m, attrs, module)[90m[39;49;00m
+[1m[31mE   AttributeError: module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'. Did you mean: 'missing_whitespace_after_keyword'?[0m
+
+[33mDuring handling of the above exception, another exception occurred:[0m
+[1m[31mtest/test_flake8.py[0m:22: in test_flake8
+    rc, errors = main_with_errors(argv=[])[90m[39;49;00m
+[1m[31m/opt/ros/humble/lib/python3.10/site-packages/ament_flake8/main.py[0m:88: in main_with_errors
+    report = generate_flake8_report([90m[39;49;00m
+[1m[31m/opt/ros/humble/lib/python3.10/site-packages/ament_flake8/main.py[0m:267: in generate_flake8_report
+    style = get_flake8_style_guide(flake8_argv)[90m[39;49;00m
+[1m[31m/opt/ros/humble/lib/python3.10/site-packages/ament_flake8/main.py[0m:157: in get_flake8_style_guide
+    application.find_plugins(config_finder)[90m[39;49;00m
+[1m[31m/usr/lib/python3/dist-packages/flake8/main/application.py[0m:163: in find_plugins
+    [96mself[39;49;00m.check_plugins.load_plugins()[90m[39;49;00m
+[1m[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py[0m:422: in load_plugins
+    plugins = [96mlist[39;49;00m([96mself[39;49;00m.manager.map(load_plugin))[90m[39;49;00m
+[1m[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py[0m:309: in map
+    [94myield[39;49;00m func([96mself[39;49;00m.plugins[name], *args, **kwargs)[90m[39;49;00m
+[1m[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py[0m:420: in load_plugin
+    [94mreturn[39;49;00m plugin.load_plugin()[90m[39;49;00m
+[1m[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py[0m:168: in load_plugin
+    [94mraise[39;49;00m failed_to_load[90m[39;49;00m
+[1m[31mE   flake8.exceptions.FailedToLoadPlugin: Flake8 failed to load plugin "pycodestyle.missing_whitespace_after_import_keyword" due to module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'.[0m
+----------------------------- Captured stderr call -----------------------------
+module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/flake8/plugins/manager.py", line 161, in load_plugin
+    self._load()
+  File "/usr/lib/python3/dist-packages/flake8/plugins/manager.py", line 138, in _load
+    self._plugin = self.entry_point.load()
+  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 173, in load
+    return functools.reduce(getattr, attrs, module)
+AttributeError: module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'. Did you mean: 'missing_whitespace_after_keyword'?
+Flake8 failed to load plugin "pycodestyle.missing_whitespace_after_import_keyword" due to module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'.
+- generated xml file: /home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg/build/sensor_fusion_pkg/pytest.xml -
+=========================== short test summary info ============================
+FAILED test/test_flake8.py::test_flake8 - flake8.exceptions.FailedToLoadPlugi...
+[31m============== [31m[1m1 failed[0m, [32m2 passed[0m, [33m1 skipped[0m, [33m2 warnings[0m[31m in 0.44s[0m[31m ==============[0m
+[33m=============================== warnings summary ===============================[0m
+test/test_flake8.py::test_flake8
+test/test_flake8.py::test_flake8
+  Warning: SelectableGroups dict interface is deprecated. Use select.
+
+-- Docs: https://docs.pytest.org/en/stable/warnings.html

@@ -1,0 +1,85 @@
+[0.000000] (-) TimerEvent: {}
+[0.000725] (sensor_fusion_pkg) JobQueued: {'identifier': 'sensor_fusion_pkg', 'dependencies': OrderedDict([('sensor_fusion_pkg', '/home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg/install/sensor_fusion_pkg')])}
+[0.000757] (sensor_fusion_pkg) JobStarted: {'identifier': 'sensor_fusion_pkg'}
+[0.099722] (-) TimerEvent: {}
+[0.159983] (sensor_fusion_pkg) Command: {'cmd': ['/usr/bin/python3', '-m', 'pytest'], 'cwd': '/home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg', 'env': {'LESSOPEN': '| /usr/bin/env lesspipe %s 2>&-', 'TEXMFHOME': '/home/yoichi/.local/share/texmf', 'CONDA_PROMPT_MODIFIER': '(base)', 'USER': 'yoichi', 'WT_PROFILE_ID': '{4ff56d04-d9cf-57ea-bae2-ad396374e7e3}', 'SHLVL': '1', 'LD_LIBRARY_PATH': '/home/yoichi/src/GIT/ros2_ws/install/person_msgs/lib:/opt/ros/humble/opt/rviz_ogre_vendor/lib:/opt/ros/humble/lib/x86_64-linux-gnu:/opt/ros/humble/lib', 'HOME': '/home/yoichi', 'OLDPWD': '/home/yoichi', 'LESS': '-g -i -M -R -S -w -X -z-4', 'CONDA_SHLVL': '1', 'CONDA_BACKUP_QT_XCB_GL_INTEGRATION': '', 'PYENV_SHELL': 'zsh', 'PAGER': 'less', 'ROS_PYTHON_VERSION': '3', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1000/bus', 'VISUAL': 'nano', 'P9K_TTY': 'old', 'GOROOT': '/usr/local/go', 'WSL_DISTRO_NAME': 'Ubuntu-22.04', 'WAYLAND_DISPLAY': 'wayland-0', 'ROS_DISTRO': 'humble', 'COLCON_PREFIX_PATH': '/home/yoichi/src/GIT/ros2_ws/install', 'LOGNAME': 'yoichi', 'PULSE_SERVER': 'unix:/mnt/wslg/PulseServer', 'WSL_INTEROP': '/run/WSL/1947764_interop', 'NAME': 'YoIcHi', '_P9K_SSH_TTY': '/dev/pts/0', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'TERM': 'xterm-256color', 'ROS_LOCALHOST_ONLY': '1', 'PATH': '/opt/ros/humble/bin:/home/yoichi/anaconda3/bin:/home/yoichi/anaconda3/condabin:/home/yoichi/.pyenv/shims:/home/yoichi/.pyenv/bin:/snap/bin:/home/yoichi/.local/bin:/home/yoichi/bin:/usr/local/bin:/usr/local/sbin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/mnt/c/Program Files/Oculus/Support/oculus-runtime:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/bin:/mnt/c/Program Files/NVIDIA GPU Computing Toolkit/CUDA/v12.9/libnvvp:/mnt/c/Program Files/Common Files/Oracle/Java/javapath:/mnt/c/Users/mogi2/AppData/Local/Programs/cursor/resources/app/bin:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Windows/System32/OpenSSH:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files/TortoiseGit/bin:/mnt/c/Program Files/dotnet:/mnt/c/Users/mogi2/AppData/Local/Microsoft/WindowsApps:/mnt/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/mnt/c/borland/bcc55/Bin":/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0:/mnt/c/WINDOWS/System32/OpenSSH:/mnt/c/Program Files/MATLAB/R2024b/bin:/mnt/c/Program Files/NVIDIA Corporation/NVIDIA App/NvDLISR:/mnt/c/Program Files/NVIDIA Corporation/Nsight Compute 2025.2.0:/mnt/c/Program Files/nodejs:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files/CMake/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/cursor/resources/app/bin:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python310/Scripts:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python310:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python313/Scripts:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python313:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Launcher:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python38/Scripts:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python38:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python312/Scripts:/mnt/c/Users/mogi2/AppData/Local/Programs/Python/Python312:/mnt/c/Users/mogi2/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/mogi2/AppData/Local/Packages/PythonSoftwareFoundation.Python.3.10_qbz5n2kfra8p0/LocalCache/local-packages/Python310/Scripts:/mnt/c/Users/mogi2/my_discord_bot/ffmpeg-7.1.1-full_build/bin:/mnt/c/Users/mogi2/AppData/Roaming/npm:/mnt/c/Program Files/nodejs:/mnt/c/Users/mogi2/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/mogi2/AppData/Local/Programs/Antigravity/bin:/mnt/c/Users/mogi2/AppData/Local/PowerToys/DSCModules:/usr/local/go/bin:/home/yoichi/.local/share/go/bin', 'XDG_RUNTIME_DIR': '/run/user/1000/', 'WT_SESSION': '7701165c-ce19-4bf8-ab66-9023e1d55638', 'DISPLAY': ':0', 'LANG': 'ja_JP.UTF-8', 'QT_XCB_GL_INTEGRATION': 'none', 'CONDA_PYTHON_EXE': '/home/yoichi/anaconda3/bin/python', 'GSETTINGS_SCHEMA_DIR': '/home/yoichi/anaconda3/share/glib-2.0/schemas', 'AMENT_PREFIX_PATH': '/home/yoichi/src/GIT/ros2_ws/install/sensor_fusion_pkg:/home/yoichi/src/GIT/ros2_ws/install/person_msgs:/home/yoichi/src/GIT/ros2_ws/install/mypkg:/opt/ros/humble', 'SHELL': '/bin/zsh', 'GOPATH': '/home/yoichi/.local/share/go', 'CONDA_DEFAULT_ENV': 'base', 'P9K_SSH': '0', 'PWD': '/home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg/build/sensor_fusion_pkg', '_P9K_TTY': '/dev/pts/0', 'PYENV_ROOT': '/home/yoichi/.pyenv', 'CONDA_EXE': '/home/yoichi/anaconda3/bin/conda', 'PYTHONPATH': '/home/yoichi/src/GIT/ros2_ws/install/sensor_fusion_pkg/lib/python3.10/site-packages:/home/yoichi/src/GIT/ros2_ws/install/person_msgs/local/lib/python3.10/dist-packages:/home/yoichi/src/GIT/ros2_ws/install/mypkg/lib/python3.10/site-packages:/opt/ros/humble/lib/python3.10/site-packages:/opt/ros/humble/local/lib/python3.10/dist-packages', 'CONDA_PREFIX': '/home/yoichi/anaconda3', 'GSETTINGS_SCHEMA_DIR_CONDA_BACKUP': '', 'COLCON': '1', 'HOSTTYPE': 'x86_64', 'WSL2_GUI_APPS_ENABLED': '1', 'WSLENV': 'WT_SESSION:WT_PROFILE_ID:', 'EDITOR': 'nano', 'CMAKE_PREFIX_PATH': '/home/yoichi/src/GIT/ros2_ws/install/person_msgs', 'PYTHONDONTWRITEBYTECODE': '1', 'PYTEST_ADDOPTS': '--tb=short --junit-xml=/home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg/build/sensor_fusion_pkg/pytest.xml --junit-prefix=sensor_fusion_pkg -o cache_dir=/home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg/build/sensor_fusion_pkg/.pytest_cache'}, 'shell': False}
+[0.199814] (-) TimerEvent: {}
+[0.300041] (-) TimerEvent: {}
+[0.400280] (-) TimerEvent: {}
+[0.500555] (-) TimerEvent: {}
+[0.600848] (-) TimerEvent: {}
+[0.701161] (-) TimerEvent: {}
+[0.801597] (-) TimerEvent: {}
+[0.816447] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m============================= test session starts ==============================\x1b[0m\n'}
+[0.816616] (sensor_fusion_pkg) StdoutLine: {'line': b'platform linux -- Python 3.10.12, pytest-6.2.5, py-1.10.0, pluggy-0.13.0\n'}
+[0.822409] (sensor_fusion_pkg) StdoutLine: {'line': b'cachedir: build/sensor_fusion_pkg/.pytest_cache\n'}
+[0.822507] (sensor_fusion_pkg) StdoutLine: {'line': b'rootdir: /home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg\n'}
+[0.822547] (sensor_fusion_pkg) StdoutLine: {'line': b'plugins: ament-xmllint-0.12.14, ament-lint-0.12.14, launch-testing-1.0.11, ament-flake8-0.12.14, ament-pep257-0.12.14, launch-testing-ros-0.19.12, ament-copyright-0.12.14, anyio-4.11.0, hydra-core-1.3.2, typeguard-4.4.4, cov-3.0.0, colcon-core-0.20.1\n'}
+[0.901711] (-) TimerEvent: {}
+[1.002014] (-) TimerEvent: {}
+[1.035074] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1mcollecting ... \x1b[0m\x1b[1m\n'}
+[1.035214] (sensor_fusion_pkg) StdoutLine: {'line': b'collected 4 items                                                              \x1b[0m\n'}
+[1.035423] (sensor_fusion_pkg) StdoutLine: {'line': b'\n'}
+[1.043288] (sensor_fusion_pkg) StdoutLine: {'line': b'sensor_fusion_pkg/test_kalman.py \x1b[32m.\x1b[0m\x1b[32m                                       [ 25%]\x1b[0m\n'}
+[1.044154] (sensor_fusion_pkg) StdoutLine: {'line': b'test/test_copyright.py \x1b[33ms\x1b[0m\x1b[32m                                                 [ 50%]\x1b[0m\n'}
+[1.102135] (-) TimerEvent: {}
+[1.167827] (sensor_fusion_pkg) StdoutLine: {'line': b'test/test_flake8.py \x1b[31mF\x1b[0m\x1b[31m                                                    [ 75%]\x1b[0m\n'}
+[1.199203] (sensor_fusion_pkg) StdoutLine: {'line': b'test/test_pep257.py \x1b[32m.\x1b[0m\x1b[31m                                                    [100%]\x1b[0m\n'}
+[1.199475] (sensor_fusion_pkg) StdoutLine: {'line': b'\n'}
+[1.199526] (sensor_fusion_pkg) StdoutLine: {'line': b'=================================== FAILURES ===================================\n'}
+[1.199571] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[31m\x1b[1m_________________________________ test_flake8 __________________________________\x1b[0m\n'}
+[1.199602] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py\x1b[0m:161: in load_plugin\n'}
+[1.202183] (-) TimerEvent: {}
+[1.249728] (sensor_fusion_pkg) StdoutLine: {'line': b'    \x1b[96mself\x1b[39;49;00m._load()\x1b[90m\x1b[39;49;00m\n'}
+[1.249997] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py\x1b[0m:138: in _load\n'}
+[1.250118] (sensor_fusion_pkg) StdoutLine: {'line': b'    \x1b[96mself\x1b[39;49;00m._plugin = \x1b[96mself\x1b[39;49;00m.entry_point.load()\x1b[90m\x1b[39;49;00m\n'}
+[1.250225] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3.10/importlib/metadata/__init__.py\x1b[0m:173: in load\n'}
+[1.250520] (sensor_fusion_pkg) StdoutLine: {'line': b'    \x1b[94mreturn\x1b[39;49;00m functools.reduce(\x1b[96mgetattr\x1b[39;49;00m, attrs, module)\x1b[90m\x1b[39;49;00m\n'}
+[1.250669] (sensor_fusion_pkg) StdoutLine: {'line': b"\x1b[1m\x1b[31mE   AttributeError: module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'. Did you mean: 'missing_whitespace_after_keyword'?\x1b[0m\n"}
+[1.250785] (sensor_fusion_pkg) StdoutLine: {'line': b'\n'}
+[1.250832] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[33mDuring handling of the above exception, another exception occurred:\x1b[0m\n'}
+[1.250863] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31mtest/test_flake8.py\x1b[0m:22: in test_flake8\n'}
+[1.250950] (sensor_fusion_pkg) StdoutLine: {'line': b'    rc, errors = main_with_errors(argv=[])\x1b[90m\x1b[39;49;00m\n'}
+[1.251052] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/opt/ros/humble/lib/python3.10/site-packages/ament_flake8/main.py\x1b[0m:88: in main_with_errors\n'}
+[1.251092] (sensor_fusion_pkg) StdoutLine: {'line': b'    report = generate_flake8_report(\x1b[90m\x1b[39;49;00m\n'}
+[1.251123] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/opt/ros/humble/lib/python3.10/site-packages/ament_flake8/main.py\x1b[0m:267: in generate_flake8_report\n'}
+[1.251180] (sensor_fusion_pkg) StdoutLine: {'line': b'    style = get_flake8_style_guide(flake8_argv)\x1b[90m\x1b[39;49;00m\n'}
+[1.251282] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/opt/ros/humble/lib/python3.10/site-packages/ament_flake8/main.py\x1b[0m:157: in get_flake8_style_guide\n'}
+[1.251385] (sensor_fusion_pkg) StdoutLine: {'line': b'    application.find_plugins(config_finder)\x1b[90m\x1b[39;49;00m\n'}
+[1.251660] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3/dist-packages/flake8/main/application.py\x1b[0m:163: in find_plugins\n'}
+[1.251862] (sensor_fusion_pkg) StdoutLine: {'line': b'    \x1b[96mself\x1b[39;49;00m.check_plugins.load_plugins()\x1b[90m\x1b[39;49;00m\n'}
+[1.252124] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py\x1b[0m:422: in load_plugins\n'}
+[1.252221] (sensor_fusion_pkg) StdoutLine: {'line': b'    plugins = \x1b[96mlist\x1b[39;49;00m(\x1b[96mself\x1b[39;49;00m.manager.map(load_plugin))\x1b[90m\x1b[39;49;00m\n'}
+[1.252317] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py\x1b[0m:309: in map\n'}
+[1.252411] (sensor_fusion_pkg) StdoutLine: {'line': b'    \x1b[94myield\x1b[39;49;00m func(\x1b[96mself\x1b[39;49;00m.plugins[name], *args, **kwargs)\x1b[90m\x1b[39;49;00m\n'}
+[1.252506] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py\x1b[0m:420: in load_plugin\n'}
+[1.252600] (sensor_fusion_pkg) StdoutLine: {'line': b'    \x1b[94mreturn\x1b[39;49;00m plugin.load_plugin()\x1b[90m\x1b[39;49;00m\n'}
+[1.252701] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31m/usr/lib/python3/dist-packages/flake8/plugins/manager.py\x1b[0m:168: in load_plugin\n'}
+[1.252751] (sensor_fusion_pkg) StdoutLine: {'line': b'    \x1b[94mraise\x1b[39;49;00m failed_to_load\x1b[90m\x1b[39;49;00m\n'}
+[1.252780] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[1m\x1b[31mE   flake8.exceptions.FailedToLoadPlugin: Flake8 failed to load plugin "pycodestyle.missing_whitespace_after_import_keyword" due to module \'pycodestyle\' has no attribute \'missing_whitespace_after_import_keyword\'.\x1b[0m\n'}
+[1.252864] (sensor_fusion_pkg) StdoutLine: {'line': b'----------------------------- Captured stderr call -----------------------------\n'}
+[1.252958] (sensor_fusion_pkg) StdoutLine: {'line': b"module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'\n"}
+[1.253052] (sensor_fusion_pkg) StdoutLine: {'line': b'Traceback (most recent call last):\n'}
+[1.253145] (sensor_fusion_pkg) StdoutLine: {'line': b'  File "/usr/lib/python3/dist-packages/flake8/plugins/manager.py", line 161, in load_plugin\n'}
+[1.253241] (sensor_fusion_pkg) StdoutLine: {'line': b'    self._load()\n'}
+[1.253336] (sensor_fusion_pkg) StdoutLine: {'line': b'  File "/usr/lib/python3/dist-packages/flake8/plugins/manager.py", line 138, in _load\n'}
+[1.253431] (sensor_fusion_pkg) StdoutLine: {'line': b'    self._plugin = self.entry_point.load()\n'}
+[1.253526] (sensor_fusion_pkg) StdoutLine: {'line': b'  File "/usr/lib/python3.10/importlib/metadata/__init__.py", line 173, in load\n'}
+[1.253627] (sensor_fusion_pkg) StdoutLine: {'line': b'    return functools.reduce(getattr, attrs, module)\n'}
+[1.253750] (sensor_fusion_pkg) StdoutLine: {'line': b"AttributeError: module 'pycodestyle' has no attribute 'missing_whitespace_after_import_keyword'. Did you mean: 'missing_whitespace_after_keyword'?\n"}
+[1.253846] (sensor_fusion_pkg) StdoutLine: {'line': b'Flake8 failed to load plugin "pycodestyle.missing_whitespace_after_import_keyword" due to module \'pycodestyle\' has no attribute \'missing_whitespace_after_import_keyword\'.\n'}
+[1.253942] (sensor_fusion_pkg) StdoutLine: {'line': b'- generated xml file: /home/yoichi/src/GIT/ros2_ws/src/sensor_fusion_pkg/build/sensor_fusion_pkg/pytest.xml -\n'}
+[1.253979] (sensor_fusion_pkg) StdoutLine: {'line': b'=========================== short test summary info ============================\n'}
+[1.254008] (sensor_fusion_pkg) StdoutLine: {'line': b'FAILED test/test_flake8.py::test_flake8 - flake8.exceptions.FailedToLoadPlugi...\n'}
+[1.254116] (sensor_fusion_pkg) StdoutLine: {'line': b'\x1b[31m============== \x1b[31m\x1b[1m1 failed\x1b[0m, \x1b[32m2 passed\x1b[0m, \x1b[33m1 skipped\x1b[0m, \x1b[33m2 warnings\x1b[0m\x1b[31m in 0.44s\x1b[0m\x1b[31m ==============\x1b[0m\n'}
+[1.254164] (sensor_fusion_pkg) StderrLine: {'line': b'\x1b[33m=============================== warnings summary ===============================\x1b[0m\n'}
+[1.254227] (sensor_fusion_pkg) StderrLine: {'line': b'test/test_flake8.py::test_flake8\n'}
+[1.254260] (sensor_fusion_pkg) StderrLine: {'line': b'test/test_flake8.py::test_flake8\n'}
+[1.254288] (sensor_fusion_pkg) StderrLine: {'line': b'  Warning: SelectableGroups dict interface is deprecated. Use select.\n'}
+[1.254341] (sensor_fusion_pkg) StderrLine: {'line': b'\n'}
+[1.254372] (sensor_fusion_pkg) StderrLine: {'line': b'-- Docs: https://docs.pytest.org/en/stable/warnings.html\n'}
+[1.302318] (-) TimerEvent: {}
+[1.332139] (sensor_fusion_pkg) CommandEnded: {'returncode': 1}
+[1.332559] (sensor_fusion_pkg) TestFailure: {'identifier': 'sensor_fusion_pkg'}
+[1.332598] (sensor_fusion_pkg) JobEnded: {'identifier': 'sensor_fusion_pkg', 'rc': 0}
+[1.333461] (-) EventReactorShutdown: {}

@@ -5,6 +5,7 @@ from std_msgs.msg import Float64, Float64MultiArray
 
 from .kalman_filters import KalmanFilter
 
+
 class GenericKalmanNode(Node):
     def __init__(self):
         super().__init__('generic_kf')
@@ -40,8 +41,14 @@ class GenericKalmanNode(Node):
 
         # ---- 4. Create subscriptions ----
         self.subs = []
+
+        def _make_sensor_calback(self, idx: int):
+            def _callback(msg, Float64):
+                self.sensor_callback(msg, idx)
+            return _callback
+
         for i, topic in enumerate(self.sensor_topics):
-            cb = lambda msg, idx=i: self.sensor_callback(msg, idx)
+            cb = self._make._make_sensor_callback(i)
             sub = self.create_subscription(Float64, topic, cb, 10)
             self.subs.append(sub)
 
@@ -71,10 +78,10 @@ class GenericKalmanNode(Node):
         msg.data = self.kf.x.tolist()
         self.pub_state.publish(msg)
 
+
 def main(args=None):
     rclpy.init(args=args)
     node = GenericKalmanNode()
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
-

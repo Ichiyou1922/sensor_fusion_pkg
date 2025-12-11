@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class KalmanFilter:
     def __init__(self, x0, P0, F, Q, H, R):
         dtype = np.float64
@@ -52,5 +53,5 @@ class KalmanFilter:
         # 事後平均
         self.x = self.x + K @ y
         # 事後共分散
-        I = np.eye(self.dim_x)
-        self.P = (I - K @ self.H) @ self.P
+        I_x = np.eye(self.dim_x)
+        self.P = (I_x - K @ self.H) @ self.P

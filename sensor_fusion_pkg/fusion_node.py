@@ -8,7 +8,7 @@ from .kalman_filters import KalmanFilter
 class FusionNode(Node):
     def __init__(self):
         super().__init__('fusion_node')
-        
+
         q = 1.0
         r = 1.0
 
@@ -38,7 +38,6 @@ class FusionNode(Node):
         msg.data = x_est
         self.pub_.publish(msg)
 
-        # self.get_logger().info(f'Update with R={r}: Est={x_est:.4f}')
 
 def main(args=None):
     rclpy.init(args=args)
