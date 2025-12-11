@@ -29,6 +29,7 @@ setup(
         'console_scripts': [
             'noisy_sensor = sensor_fusion_pkg.noisy_sensor:main',
             'fusion_node = sensor_fusion_pkg.fusion_node:main',
+            'generic_kf_node = sensor_fusion_pkg.generic_kf_node:main',
         ],
     },
 )
