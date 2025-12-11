@@ -15,7 +15,7 @@ x_{k}=Fx_{k-1}+Bu_{k}+w_{k}
 - プロセス雑音 $w_{k}$
     - 平均0のガウス雑音と仮定する．
 ```math
-w_{k}~\mathcal{N}(0,\mathcal{Q})
+w_{k}\sim \mathcal{N}(0,\mathcal{Q})
 ```
 
 2. 観測方程式
@@ -30,5 +30,5 @@ z_{k}=Hx_{k}+v_{k}
 - 観測雑音: $v_{k}$
     - センサのノイズ->ガウス雑音
 ```math
-v_{k}~\mathcal{N}(0, \mathcal{R})
+v_{k}\sim \mathcal{N}(0, \mathcal{R})
 ```
