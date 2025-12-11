@@ -8,8 +8,18 @@ from .kalman_filters import KalmanFilter
 
 def validate_dim_and_topics(dim_z: int, sensor_topics):
     """
-    dim_zとsensor_topicsの整合性をチェックするバリデータ
-    len(sensor_topics) == dim_z でなければならない
+    Validate consistency between dim_z and sensor_topics.
+
+    dim_z is the measurement dimension, and sensor_topics is the list of
+    sensor topic names. Their lengths must match, and dim_z must be a
+    positive integer.
+
+    Raises
+    ------
+        ValueError
+            If dim_z is not a positive integer, sensor_topics is not a list or
+            tuple, or len(sensor_topics) != dim_z.
+
     """
     if not isinstance(dim_z, int) or dim_z <= 0:
         raise ValueError("dim_z must be a positive integer")
@@ -19,22 +29,18 @@ def validate_dim_and_topics(dim_z: int, sensor_topics):
 
     if len(sensor_topics) != dim_z:
         raise ValueError(
-            f"dim_z ({dim_z}) and number of sensor_topics ({len(sensor_topics)}) do not match"
-        )
+            f"dim_z ({dim_z}) and number of sensor_topics ({len(sensor_topics)}) do not match")
 
 
 class GenericKalmanNode(Node):
     def __init__(self):
         super().__init__('generic_kf')
-
         # ---- 1. Read parameters ----
         self.dim_x = self.declare_parameter('dim_x').value
         self.dim_z = self.declare_parameter('dim_z').value
         self.sensor_topics = self.declare_parameter('sensor_topics').value
         self.output_topic = self.declare_parameter('output_topic', '/kf_state').value
-
         validate_dim_and_topics(self.dim_z, self.sensor_topics)
-
         # matrices: flat lists
         F_list = self.declare_parameter('F').value
         Q_list = self.declare_parameter('Q').value
@@ -42,7 +48,6 @@ class GenericKalmanNode(Node):
         R_list = self.declare_parameter('R').value
         x0_list = self.declare_parameter('x0').value
         P0_list = self.declare_parameter('P0').value
-
         # reshape
         self.F = np.array(F_list, dtype=float).reshape(self.dim_x, self.dim_x)
         self.Q = np.array(Q_list, dtype=float).reshape(self.dim_x, self.dim_x)
@@ -50,10 +55,8 @@ class GenericKalmanNode(Node):
         self.R = np.array(R_list, dtype=float).reshape(self.dim_z, self.dim_z)
         self.x0 = np.array(x0_list, dtype=float).reshape(self.dim_x)
         self.P0 = np.array(P0_list, dtype=float).reshape(self.dim_x, self.dim_x)
-
         # ---- 2. Init Kalman filter ----
         self.kf = KalmanFilter(self.x0, self.P0, self.F, self.Q, self.H, self.R)
-
         # ---- 3. Sensor buffers ----
         self.last_z = np.zeros(self.dim_z, dtype=float)
         self.has_z = [False] * self.dim_z
@@ -70,10 +73,8 @@ class GenericKalmanNode(Node):
             cb = self._make._make_sensor_callback(i)
             sub = self.create_subscription(Float64, topic, cb, 10)
             self.subs.append(sub)
-
         # ---- 5. Publisher ----
         self.pub_state = self.create_publisher(Float64MultiArray, self.output_topic, 10)
-
         # ---- 6. Timer ----
         self.dt = self.declare_parameter('dt', 0.05).value
         self.timer = self.create_timer(self.dt, self.timer_callback)
