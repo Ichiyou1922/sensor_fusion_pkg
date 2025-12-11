@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          path: ros2_ws/src/sendor_fusion_pkg
+          path: ros2_ws/src/sensor_fusion_pkg
 
       - name: Build
         shell: bash
@@ -27,9 +27,7 @@ jobs:
         shell: bash
         run: |
           surce /opt/ros/humble/setup.bash
-          surce /opt/ros/humble/setup.zsh
           cd ros2_ws
           source install/setup.bash
-          source install/setup.zsh
           colcon test --packages-select sensor_fusion_pkg
           colcon test-result --verbose
