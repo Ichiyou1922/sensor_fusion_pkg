@@ -1,4 +1,13 @@
 # sensor_fusion_pkg
+## KalmanFilterの内部で保持するデータ類
+1. 状態推定ベクトル: $x\in \mathbb{R}^{n}$
+2. 共分散行列: $P\in \mathbb{R}^{n\times n}$
+3. 状態遷移行列: $F\in \mathbb{R}^{n\times n}$
+4. プロセス雑音共分散: $F\in \mathbb{R}^{n\times n}$
+5. 観測行列: $H\in \mathbb{R}^{m\times n}$
+6. 観測雑音共分散: $R\in \mathbb{R}^{n\times m}$
+7. 制御入力(option): $B$
+
 
 ## 理論
 1. 状態方程式
