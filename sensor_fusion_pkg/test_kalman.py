@@ -1,9 +1,11 @@
 import numpy as np
+import pytest
+
 from sensor_fusion_pkg.kalman_filters import KalmanFilter
 
 
 # predict(), update()のテスト
-def test_kalman_1d_no_noise_2():
+def test_kalman_1d_no_noise():
     # 1次元の理想的なモデル
     x0 = np.array([0.0])        # 初期状態 x0 = 0
     P0 = np.array([[1.0]])      # 初期共分散 P0 = 1
@@ -23,3 +25,104 @@ def test_kalman_1d_no_noise_2():
     # 理論的に x は 10，P は 0 になっていなければならない
     assert np.allclose(kf.x, np.array([10.0]))
     assert np.allclose(kf.P, np.array([[0.0]]))
+
+
+def _valid_params_1d():
+    # 1次元の最小構成（正常系）
+    x0 = np.array([0.0])
+    P0 = np.array([[1.0]])
+    F = np.array([[1.0]])
+    Q = np.array([[0.1]])
+    H = np.array([[1.0]])
+    R = np.array([[1.0]])
+    return x0, P0, F, Q, H, R
+
+
+def test_init_raises_on_x0_shape_mismatch():
+    x0, P0, F, Q, H, R = _valid_params_1d()
+    # x0 を(2,) にしてわざと壊す
+    bad_x0 = np.array([0.0, 1.0])
+    with pytest.raises(ValueError):
+        KalmanFilter(bad_x0, P0, F, Q, H, R)
+
+
+def test_init_raises_on_P0_shape_mismatch():
+    x0, P0, F, Q, H, R = _valid_params_1d()
+    # P0 を(2,2) にしてわざと壊す
+    bad_P0 = np.eye(2)
+    with pytest.raises(ValueError):
+        KalmanFilter(x0, bad_P0, F, Q, H, R)
+
+
+def test_init_raises_on_H_R_shape_mismatch():
+    x0, P0, F, Q, H, R = _valid_params_1d()
+    # H の行数とR のサイズを矛盾させる
+    bad_H = np.array([[1.0],
+                      [1.0]])      # 観測2次元だと主張
+    # なのに R は 1x1 のまま
+    with pytest.raises(ValueError):
+        KalmanFilter(x0, P0, F, Q, bad_H, R)
+
+
+# 以下2つのセンサを用いたテスト
+def test_two_sensors_more_precise_sensor_dominates():
+    # 1次元状態，2本センサ
+    x0 = np.array([0.0])
+    P0 = np.array([[1e6]])         # 事前はほぼ無情報
+    F = np.array([[1.0]])
+    Q = np.array([[0.0]])
+    H = np.array([[1.0],
+                  [1.0]])
+
+    # センサ1が高精度，センサ2はノイズ大
+    R = np.array([[1.0, 0.0],
+                  [0.0, 9.0]])
+
+    kf = KalmanFilter(x0, P0, F, Q, H, R)
+
+    z = np.array([10.0, 30.0])
+
+    kf.predict()
+    kf.update(z)
+
+    x_hat = float(kf.x[0])
+
+    # 10 と 30 の間にはあるはず
+    assert 10.0 < x_hat < 30.0
+
+    # センサ1（10）の方に強く寄っていること
+    assert abs(x_hat - 10.0) < abs(x_hat - 30.0)
+
+    # 平均 20 よりも 10 側に寄っていること（重み付き平均の性質）
+    assert x_hat < 20.0
+
+
+def test_two_sensors_swapping_noise_swaps_bias_direction():
+    x0 = np.array([0.0])
+    P0 = np.array([[1e6]])
+    F = np.array([[1.0]])
+    Q = np.array([[0.0]])
+    H = np.array([[1.0],
+                  [1.0]])
+
+    # 今度はセンサ2が高精度
+    R = np.array([[9.0, 0.0],
+                  [0.0, 1.0]])
+
+    kf = KalmanFilter(x0, P0, F, Q, H, R)
+
+    z = np.array([10.0, 30.0])
+
+    kf.predict()
+    kf.update(z)
+
+    x_hat = float(kf.x[0])
+
+    # 10 と 30 の間
+    assert 10.0 < x_hat < 30.0
+
+    # 今度は 30 の方に強く寄っていること
+    assert abs(x_hat - 30.0) < abs(x_hat - 10.0)
+
+    # 平均 20 よりも 30 側に寄っていること
+    assert x_hat > 20.0
