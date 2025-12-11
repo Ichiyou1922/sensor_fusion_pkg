@@ -1,5 +1,7 @@
 import pytest
 
+pytest.importorskip("rclpy")
+
 from sensor_fusion_pkg.generic_kf_node import validate_dim_and_topics
 
 
@@ -26,3 +28,13 @@ def test_validate_dim_and_topics_raises_on_non_list_topics():
     # sensor_topics が list / tuple 以外なら弾く
     with pytest.raises(ValueError):
         validate_dim_and_topics(1, '/sensor_1/data')  # str を直接渡したケース
+
+
+def test_validate_dim_and_topics_rejects_non_string_topics():
+    with pytest.raises(ValueError):
+        validate_dim_and_topics(2, ['/sensor_1/data', 42])
+
+
+def test_validate_dim_and_topics_rejects_empty_topic_names():
+    with pytest.raises(ValueError):
+        validate_dim_and_topics(1, [''])
