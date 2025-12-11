@@ -3,7 +3,7 @@
 <package format="3">
   <name>sensor_fusion_pkg</name>
   <version>0.0.0</version>
-  <description>1DKalmanFilter package</description>
+  <description>NDKalmanFilter package</description>
   <maintainer email="mogi2fruits.kazu@gmail.com">Kazuha Mogi</maintainer>
   <license>BSD-3-Clause</license>
 
