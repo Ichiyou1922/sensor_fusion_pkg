@@ -52,5 +52,9 @@ jobs:
           source /opt/ros/humble/setup.bash
           cd ros2_ws
           source install/setup.bash
+          set +e
           colcon test --packages-select sensor_fusion_pkg
           colcon test-result --verbose
+          TEST_RC=$?
+          set -e
+          exit $TEST_RC
