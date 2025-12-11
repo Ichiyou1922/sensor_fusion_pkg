@@ -9,15 +9,15 @@
 - 複数センサの同時処理に対応
 - 観測行列，雑音行列のshape checkにより例外を投げます．
 - pytestによる強固な単体テスト．
-- flake8, pep257, copyright．
-- launchファイルを使用した容易な実行．
+- `flake8`, `pep257`, `copyright`．
+- `launch`ファイルを使用した容易な実行．
 
 ## 含まれるノード
 #### noisy_sensor.py
 - ランダムノイズを含むセンサ
 - パラメータ
-  - variance: ノイズの分散
-  - sensor_id: 出力トピック番号
+  - `variance`: ノイズの分散
+  - `sensor_id`: 出力トピック番号
 #### fusion_node.py
 - 状態1次元
 - センサ2本
@@ -26,18 +26,18 @@
 #### generic_kf_node.py
 - 汎用N次元カルマンフィルタノード
 - 入力パラメータ
-  - dim_x: int型/状態ベクトル次元
-  - dim_z: int型/観測ベクトル次元
-  - sensor_topics: list[str]型/各観測に対応するトピック名
-  - F: list[list[float]]型/状態遷移行列(dim_x ×dim_x)
-  - Q: list[list[float]]型/プロセス雑音共分散
-  - H: list[list[float]]型/観測行列(dim_z×dim_x)
-  - R: list[list[float]]型/観測雑音共分散(dim_z×dim_z)
-  - x0: list[float]型/初期状態
-  - P0: list[list[float]]型/初期共分散
+  - `dim_x`: int型/状態ベクトル次元
+  - `dim_z`: int型/観測ベクトル次元
+  - `sensor_topics`: list[str]型/各観測に対応するトピック名
+  - `F`: list[list[float]]型/状態遷移行列(dim_x ×dim_x)
+  - `Q`: list[list[float]]型/プロセス雑音共分散
+  - `H`: list[list[float]]型/観測行列(dim_z×dim_x)
+  - `R`: list[list[float]]型/観測雑音共分散(dim_z×dim_z)
+  - `x0`: list[float]型/初期状態
+  - `P0`: list[list[float]]型/初期共分散
 - チェック機能
-  - 行列サイズが一致しない場合ValueError
-  - センサ数 $\neq$ dim_zの場合もValueError
+  - 行列サイズが一致しない場合`ValueError`
+  - センサ数 $\neq$ dim_zの場合も`ValueError`
   - 全データはFloat64MultiArrayとして`/kf_state`にpublish
 
 ## 実行方法
@@ -118,12 +118,12 @@ generic_kf_node:
          0.0,   0.0,   0.0,   10.0]
 
 ```
-- 使用するyamlファイルを選択(今回generic_kf_4d2sens.yaml)
+- 使用するyamlファイルを選択(今回`generic_kf_4d2sens.yaml`)
 ```bash
 $ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
   param_file:=install/sensor_fusion_pkg/share/sensor_fusion_pkg/config/generic_kf_4d2sens.yaml
 ```
-- echoなどで確認
+- `echo`などで確認
 ```bash
 $ ros2 topic echo /kf_state
 ```
@@ -133,10 +133,10 @@ $ ros2 topic echo /kf_state
 
 ## よくあるエラー
 1. 行列サイズの不一致
-- dim_zに与えた数とHの行列が一致していない
-- センサtopicの数がdim_zと一致していないなど
-2. Float64MultiArrayに複数の型がpublishされている
-- 現在generic_kf_nodeに統一されているため改善されているはずです
+- `dim_z`に与えた数と`H`の行数が一致していない
+- センサtopicの数が`dim_z`と一致していないなど
+2. `Float64MultiArray`に複数の型がpublishされている
+- 現在`generic_kf_node`に統一されているため改善されているはずです
 ## テストについて
 - 本パッケージは以下の性質をpytestにより検証している．
   - predictで共分散が増加すること．
@@ -146,9 +146,9 @@ $ ros2 topic echo /kf_state
   - Nステップで推定値が理論通りに収束すること．
 - テストコード: `test_kalman`
 - CIでは以下も確認済み．
-  - flake8
-  - pep257
-  - copyright
+  - `flake8`
+  - `pep257`
+  - `copyright`
 
 ## KalmanFilterの内部で保持するデータ類
 1. 状態推定ベクトル: $x\in \mathbb{R}^{n}$
