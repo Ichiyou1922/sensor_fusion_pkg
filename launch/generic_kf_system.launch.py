@@ -45,4 +45,3 @@ def generate_launch_description():
             parameters=[LaunchConfiguration('param_file')],
         ),
     ])
-
