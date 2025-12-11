@@ -33,7 +33,7 @@ def validate_dim_and_topics(dim_z: int, sensor_topics):
 
     if len(sensor_topics) != dim_z:
         raise ValueError(
-            f"dim_z ({dim_z}) and number of sensor_topics ({len(sensor_topics)}) do not match"
+            f"dim_z({dim_z}) and num of topics ({len(sensor_topics)}) dont fit"
         )
 
 
