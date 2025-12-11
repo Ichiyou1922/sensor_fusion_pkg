@@ -126,3 +126,82 @@ def test_two_sensors_swapping_noise_swaps_bias_direction():
 
     # 平均 20 よりも 30 側に寄っていること
     assert x_hat > 20.0
+
+
+# Q>0で予測においてPが増えるかどうかのテスト
+def test_predict_increases_covariance_when_process_noise_positive():
+    # 1次元モデル
+    x0 = np.array([0.0])
+    P0 = np.array([[1.0]])
+    F = np.array([[1.0]])    # 単位遷移
+    Q = np.array([[0.5]])    # プロセスノイズあり
+    H = np.array([[1.0]])
+    R = np.array([[1.0]])
+
+    kf = KalmanFilter(x0, P0, F, Q, H, R)
+
+    P_before = kf.P.copy()
+    kf.predict()
+    P_after = kf.P.copy()
+
+    # Q > 0 なので P は必ず増えているはず
+    assert P_after[0, 0] > P_before[0, 0]
+
+
+# Q>0で観測後にPが減るかどうか
+def test_update_reduces_covariance_relative_to_prediction():
+    x0 = np.array([0.0])
+    P0 = np.array([[2.0]])    # 少し大きめの不確かさ
+    F = np.array([[1.0]])
+    Q = np.array([[0.0]])    # プロセスノイズなし
+    H = np.array([[1.0]])
+    R = np.array([[1.0]])    # 観測ノイズあり
+
+    kf = KalmanFilter(x0, P0, F, Q, H, R)
+
+    # 予測
+    kf.predict()
+    P_pred = kf.P.copy()
+
+    # 適当な観測値
+    z = np.array([1.0])
+
+    # 更新
+    kf.update(z)
+    P_post = kf.P.copy()
+
+    # 観測を取り込んだあとは，不確かさは減っていなければならない
+    assert P_post[0, 0] < P_pred[0, 0]
+
+
+# 収束テスト: ステップを繰り返すごとに推定値は収束し，共分散は小さくなるはず
+def test_kalman_1d_converges_to_constant_measurement():
+    # 真の状態は常に 10 とする
+    true_value = 10.0
+
+    # 初期状態は外した値にしておく
+    x0 = np.array([0.0])
+    P0 = np.array([[100.0]])   # かなり不確か
+
+    F = np.array([[1.0]])      # 定常モデル
+    Q = np.array([[0.1]])      # 少しだけプロセスノイズ
+    H = np.array([[1.0]])      # 状態をそのまま観測
+    R = np.array([[1.0]])      # 観測ノイズあり
+
+    kf = KalmanFilter(x0, P0, F, Q, H, R)
+
+    z = np.array([true_value])
+
+    # 複数ステップ回す
+    for _ in range(50):
+        kf.predict()
+        kf.update(z)
+
+    x_hat = float(kf.x[0])
+    P_hat = float(kf.P[0, 0])
+
+    # 推定値は真値の近くまで収束しているはず
+    assert abs(x_hat - true_value) < 1e-2
+
+    # 共分散も十分小さくなっているはず
+    assert P_hat < 1.0
