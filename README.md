@@ -1,3 +1,4 @@
+![test](https://github.com/Ichiyou1922/sensor_fusion_pkg/actions/workflows/ros2_test.yml/badge.svg)
 # sensor_fusion_pkg
 - ROS2(Humble)向けのセンサフュージョンパッケージ．
 - 1次元温度センサ融合から始まり，任意次元，任意センサ数に拡張可能な汎用N次元カルマンフィルタノードを提供します．
