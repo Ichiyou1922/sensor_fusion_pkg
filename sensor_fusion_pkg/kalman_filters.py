@@ -36,7 +36,21 @@ class KalmanFilter:
         self.dim_z = m
 
     def predict(self):
-        raise NotImplementedError
+        self.x = self.F @ self.x
+        self.P = self.F @ self.P @ self.F.T + self.Q
 
     def update(self, z):
-        raise NotImplementedError
+        z = np.asarray(z, dtype=self.x.dtype)
+        if z.shape != (self.dim_z,):
+            raise ValueError(f"z must have shape ({self.dim_z},), got {z.shape}")
+        # イノベーション
+        y = z - (self.H @ self.x)
+        # イノベーション共分散
+        S = self.H @ self.P @ self.H.T + self.R
+        # カルマンゲイン
+        K = self.P @ self.H.T @ np.linalg.inv(S)
+        # 事後平均
+        self.x = self.x + K @ y
+        # 事後共分散
+        I = np.eye(self.dim_x)
+        self.P = (I - K @ self.H) @ self.P
