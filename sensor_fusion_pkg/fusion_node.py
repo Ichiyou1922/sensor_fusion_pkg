@@ -8,25 +8,25 @@ class KalmanFilter1D:
         self.p = initial_p # 推定誤差共分散
         self.q = process_noise_q # プロセスノイズ
 
-        def predict(self):
-            self.p = self.p + self.q
+    def predict(self):
+        self.p = self.p + self.q
 
-        def update(self, z, r):
-            k = self.p / (self.p + r) # KalmanGain K = P / (P + R)
+    def update(self, z, r):
+        k = self.p / (self.p + r) # KalmanGain K = P / (P + R)
 
-            self.x = self.x + k * (z - self.x) # update x
+        self.x = self.x + k * (z - self.x) # update x
 
-            self.p = (1 - k) * self.p # update p
+        self.p = (1 - k) * self.p # update p
 
-            return self.x, self.p
+        return self.x, self.p
 
 class FusionNode(Node):
     def __init__(self):
         super().__init__('fusion_node')
         
         self.declare_parameter('q_process_noise', 0.01) # 時間経過で劣化
-        self.declare_parameter('var1', 1.0)
-        self.declare_parameter('var2', 5.0) # とりあえずセンサ2のほうが精度が悪いことに
+        self.declare_parameter('r_sensor1', 1.0)
+        self.declare_parameter('r_sensor2', 5.0) # とりあえずセンサ2のほうが精度が悪いことに
         
         self.q = self.get_parameter('q_process_noise').value
         self.r1 = self.get_parameter('r_sensor1').value
