@@ -1,19 +1,107 @@
 # sensor_fusion_pkg
-
+- ROS2(Humble)向けのセンサフュージョンパッケージ．
+- 1次元温度センサ融合から始まり，任意次元，任意センサ数に拡張可能な汎用N次元カルマンフィルタノードを提供します．
 ## パッケージの内容
+- 1D専用フィルタ
+- N次元カルマンフィルタ
+- 複数センサの同時処理に対応
+- 観測行列，雑音行列のshape checkにより例外を投げます．
+- pytestによる強固な単体テスト．
+- flake8, pep257, copyright．
+- launchファイルを使用した容易な実行．
 
-## 使用詳細
+## 含まれるノード
+#### noisy_sensor.py
+- ランダムノイズを含むセンサ
+- パラメータ
+  - variance: ノイズの分散
+  - sensor_id: 出力トピック番号
+#### fusion_node.py
+- 状態1次元
+- センサ2本
+- 固定の観測モデルによる温度推定
+- 最小構成
+#### generic_kf_node.py
+- 汎用N次元カルマンフィルタノード
+- 入力パラメータ
+  - dim_x: int型/状態ベクトル次元
+  - dim_z: int型/観測ベクトル次元
+  - sensor_topics: list[str]型/各観測に対応するトピック名
+  - F: list[list[float]]型/状態遷移行列(dim_x ×dim_x)
+  - Q: list[list[float]]型/プロセス雑音共分散
+  - H: list[list[float]]型/観測行列(dim_z×dim_x)
+  - R: list[list[float]]型/観測雑音共分散(dim_z×dim_z)
+  - x0: list[float]型/初期状態
+  - P0: list[list[float]]型/初期共分散
+- チェック機能
+  - 行列サイズが一致しない場合ValueError
+  - センサ数 $\neq$ dim_zの場合もValueError
+  - 全データはFloat64MultiArrayとして`/kf_state`にpublish
 
-## 使用方法
+## 実行方法
+- 1D温度融合
+```bash
+$ ros2 launch sensor_fusion_pkg fusion_system.launch.py
+```
+- 汎用KFの起動
+`sensor_fusion_pkg/config/`内の`yaml`ファイルに設定値を与える．
+- 最小構成例: 2センサ1次元状態を推定するKF
+```yaml
+generic_kf_node:
+  ros__parameters:
+    dim_x: 1
+    dim_z: 2
+    sensor_topics:
+      - "/sensor_1/data"
+      - "/sensor_2/data"
+
+    # x_k = x_{k-1} とする（定常温度モデル）
+    F: [1.0]
+    H: [[1.0],
+        [1.0]]
+    Q: [0.01]
+    R: [[1.0, 0.0],
+        [0.0, 5.0]]
+
+    x0: [0.0]
+    P0: [[1.0]]
+
+```
+- 以下でlaunch
+```bash
+$ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
+```
+- publishされるトピック
+  - /kf_state: Float64MultiArray型/事後状態推定値
+  - /sensor_i/data: Float64型/観測された生データ
+
+## よくあるエラー
+1. 行列サイズの不一致
+- dim_zに与えた数とHの行列が一致していない
+- センサtopicの数がdim_zと一致していないなど
+2. Float64MultiArrayに複数の型がpublishされている
+- 現在generic_kf_nodeに統一されているため改善されているはずです
+## テストについて
+- 本パッケージは以下の性質をpytestにより検証している．
+  - predictで共分散が増加すること．
+  - updateで共分散が減少すること．
+  - 2センサのノイズ反転で推定バイアスが反転すること．
+  - shape mismatchを正しく検出すること．
+  - Nステップで推定値が理論通りに収束すること．
+- テストコード: `test_kalman`
+- CIでは以下も確認済み．
+  - flake8
+  - pep257
+  - copyright
 
 ## KalmanFilterの内部で保持するデータ類
 1. 状態推定ベクトル: $x\in \mathbb{R}^{n}$
 2. 共分散行列: $P\in \mathbb{R}^{n\times n}$
 3. 状態遷移行列: $F\in \mathbb{R}^{n\times n}$
 4. プロセス雑音共分散: $F\in \mathbb{R}^{n\times n}$
-5. 観測行列: $H\in \mathbb{R}^{m\times n}$
-6. 観測雑音共分散: $R\in \mathbb{R}^{n\times m}$
-7. 制御入力(option): $B$
+6. 観測行列: $H\in \mathbb{R}^{m\times n}$
+7. 観測雑音共分散: $R\in \mathbb{R}^{n\times m}$
+8. 制御入力(option): $B$
 
 ## 理論
 1. 状態方程式
