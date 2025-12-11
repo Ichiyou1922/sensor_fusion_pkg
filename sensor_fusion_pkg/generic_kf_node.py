@@ -85,7 +85,7 @@ class GenericKalmanNode(Node):
         # ---- 6. Timer ----
         self.dt = self.declare_parameter('dt', 0.05).value
         self.timer = self.create_timer(self.dt, self.timer_callback)
-    
+
     def _make_sensor_callback(self, idx: int):
         def _callback(msg):
             self.sensor_callback(msg, idx)

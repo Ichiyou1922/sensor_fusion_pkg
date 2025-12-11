@@ -73,6 +73,60 @@ generic_kf_node:
 ```bash
 $ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
 ```
+- 4次現状態: 例えば $[x, \dot x, y, \dot y]$ など
+- 以下は既に用意された`generic_kf_4d2sens.yaml`
+```yaml
+generic_kf_node:
+  ros__parameters:
+    # 4 次元状態: [x, vx, y, vy]^T
+    dim_x: 4
+    # 観測は2次元: [x_meas, y_meas]^T
+    dim_z: 2
+
+    # センサトピック
+    sensor_topics:
+      - /sensor_1/data
+      - /sensor_2/data
+
+    # 状態遷移行列 F (4x4) をフラットなリストで
+    F: [1.0, 1.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 1.0,
+        0.0, 0.0, 0.0, 1.0]
+
+    # プロセス雑音共分散 Q (4x4)
+    Q: [0.01, 0.0,  0.0,  0.0,
+        0.0,  0.1,  0.0,  0.0,
+        0.0,  0.0,  0.01, 0.0,
+        0.0,  0.0,  0.0,  0.1]
+
+    # 観測行列 H (2x4)
+    H: [1.0, 0.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0]
+
+    # 観測雑音共分散 R (2x2)
+    R: [1.0, 0.0,
+        0.0, 5.0]
+
+    # 初期状態 x0 (4,)
+    x0: [0.0, 0.0, 0.0, 0.0]
+
+    # 初期共分散 P0 (4x4)
+    P0: [100.0, 0.0,   0.0,   0.0,
+         0.0,   10.0,  0.0,   0.0,
+         0.0,   0.0,   100.0, 0.0,
+         0.0,   0.0,   0.0,   10.0]
+
+```
+- 使用するyamlファイルを選択(今回generic_kf_4d2sens.yaml)
+```bash
+$ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
+  param_file:=install/sensor_fusion_pkg/share/sensor_fusion_pkg/config/generic_kf_4d2sens.yaml
+```
+- echoなどで確認
+```bash
+$ ros2 topic echo /kf_state
+```
 - publishされるトピック
   - /kf_state: Float64MultiArray型/事後状態推定値
   - /sensor_i/data: Float64型/観測された生データ
