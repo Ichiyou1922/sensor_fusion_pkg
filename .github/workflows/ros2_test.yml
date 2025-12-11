@@ -24,6 +24,13 @@ jobs:
       - name: Run flake8
         run: flake8 sensor_fusion_pkg
 
+      - name: Fix flake8/pycodestyle versions for ament_flake8
+        shell: bash
+        run: |
+          python3 -m pip install --upgrade pip
+          python3 -m pip install "flake8<4" "pycodestyle<2.8"
+
+
   # lint が通ったら ROS2 コンテナでビルド＋テストを行うジョブ
   build-and-test:
     needs: lint
