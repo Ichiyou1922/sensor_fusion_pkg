@@ -5,7 +5,31 @@ name: ROS 2 CI
 on: [push, pull_request]
 
 jobs:
+  # まず軽い lint だけを走らせるジョブ
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install lint tools
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pydocstyle
+
+      - name: Run flake8
+        run: flake8 sensor_fusion_pkg
+
+      - name: Run pydocstyle
+        run: pydocstyle sensor_fusion_pkg
+
+  # lint が通ったら ROS2 コンテナでビルド＋テストを行うジョブ
   build-and-test:
+    needs: lint
     runs-on: ubuntu-latest
     container:
       image: osrf/ros:humble-desktop
@@ -16,7 +40,7 @@ jobs:
 
       - name: Build
         shell: bash
-        run: | 
+        run: |
           source /opt/ros/humble/setup.bash
           cd ros2_ws
           # 依存関係の解決
