@@ -18,7 +18,7 @@ x_{k}=Fx_{k-1}+Bu_{k}+w_{k}
 w_{k}~\mathcal{N}(0,\mathcal{Q})
 ```
 
-1. 観測方程式
+2. 観測方程式
 ```math
 z_{k}=Hx_{k}+v_{k}
 ```
