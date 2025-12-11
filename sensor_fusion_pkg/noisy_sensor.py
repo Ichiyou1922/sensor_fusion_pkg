@@ -2,7 +2,6 @@ import rclpy
 from rclpy.node import Node
 from std_msgs.msg import Float64
 import random
-import sys
 
 class NoisySensor(Node):
     def __init__(self):
@@ -22,14 +21,14 @@ class NoisySensor(Node):
 
         self.get_logger().info(f'Sensor {self.sensor_id} started. Variance: {self.variance}')
 
-        def publish_data(self):
-            msg = Float64()
-            # ガウス分布に従うノイズを加える->N(mu, sigma^2)
-            noise = random.gauss(0, self.variance ** 0.5) # random.gaussはsigmaなので平方根を取る
-            msg.data = self.true_value + noise
-            self.publisher_.publish(msg)
-            # デバッグ用
-            self.get_logger().info(f'Sendor {self.sensor_id}: {msg.data:.4} (Var: {self.variance})')
+    def publish_data(self):
+        msg = Float64()
+        # ガウス分布に従うノイズを加える->N(mu, sigma^2)
+        noise = random.gauss(0, self.variance ** 0.5) # random.gaussはsigmaなので平方根を取る
+        msg.data = self.true_value + noise
+        self.publisher_.publish(msg)
+        # デバッグ用
+        self.get_logger().info(f'Sendor {self.sensor_id}: {msg.data:.4} (Var: {self.variance})')
 
 def main(args=None):
     rclpy.init(args=args)
