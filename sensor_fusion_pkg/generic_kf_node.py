@@ -36,6 +36,9 @@ def validate_dim_and_topics(dim_z: int, sensor_topics):
             f"dim_z({dim_z}) and num of topics ({len(sensor_topics)}) dont fit"
         )
 
+    if not all(isinstance(topic, str) and topic for topic in sensor_topics):
+        raise ValueError("all sensor_topics entries must be non-empty strings")
+
 
 class GenericKalmanNode(Node):
     def __init__(self):
@@ -44,8 +47,11 @@ class GenericKalmanNode(Node):
         self.dim_x = self.declare_parameter('dim_x').value
         self.dim_z = self.declare_parameter('dim_z').value
         self.sensor_topics = self.declare_parameter('sensor_topics').value
-        self.output_topic = self.declare_parameter
-        ('output_topic', '/kf_state').value
+        self.output_topic = self.declare_parameter(
+            'output_topic', '/kf_state'
+        ).value
+        if not isinstance(self.output_topic, str) or not self.output_topic:
+            raise ValueError('output_topic must be a non-empty string')
         validate_dim_and_topics(self.dim_z, self.sensor_topics)
         # matrices: flat lists
         F_list = self.declare_parameter('F').value
@@ -73,14 +79,8 @@ class GenericKalmanNode(Node):
 
         # ---- 4. Create subscriptions ----
         self.subs = []
-
-        def _make_sensor_calback(self, idx: int):
-            def _callback(msg, Float64):
-                self.sensor_callback(msg, idx)
-            return _callback
-
         for i, topic in enumerate(self.sensor_topics):
-            cb = self._make._make_sensor_callback(i)
+            cb = self._make_sensor_callback(i)
             sub = self.create_subscription(Float64, topic, cb, 10)
             self.subs.append(sub)
         # ---- 5. Publisher ----
@@ -90,6 +90,12 @@ class GenericKalmanNode(Node):
         # ---- 6. Timer ----
         self.dt = self.declare_parameter('dt', 0.05).value
         self.timer = self.create_timer(self.dt, self.timer_callback)
+
+    def _make_sensor_callback(self, idx: int):
+        def _callback(msg):
+            self.sensor_callback(msg, idx)
+
+        return _callback
 
     def sensor_callback(self, msg, idx):
         self.last_z[idx] = msg.data
