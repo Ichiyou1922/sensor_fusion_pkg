@@ -19,7 +19,7 @@ class NoisySensor(Node):
         self.publisher_ = self.create_publisher(Float64, topic_name, 10)
 
         self.timer = self.create_timer(0.1, self.publish_data) # 10Hzでデータ送信
-        self.true_value = 25.0 # 室温25度など
+        self.true_value = 25.0 # 室温25度など何かしらの真値
 
         self.get_logger().info(f'Sensor {self.sensor_id} started. Variance: {self.variance}')
 
