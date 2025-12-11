@@ -7,7 +7,7 @@ def generate_launch_description():
             package='sensor_fusion_pkg',
             executable='noisy_sensor',
             name='sensor_precise',
-            parameters[{'vaeiance': 1.0, 'sensor_id': 1}]
+            parameters=[{'variance': 1.0, 'sensor_id': 1}]
             ),
         Node(
             package='sensor_fusion_pkg',
