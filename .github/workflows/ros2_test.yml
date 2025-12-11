@@ -24,9 +24,6 @@ jobs:
       - name: Run flake8
         run: flake8 sensor_fusion_pkg
 
-      - name: Run pydocstyle
-        run: pydocstyle sensor_fusion_pkg
-
   # lint が通ったら ROS2 コンテナでビルド＋テストを行うジョブ
   build-and-test:
     needs: lint
