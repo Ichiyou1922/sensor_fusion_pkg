@@ -45,7 +45,9 @@ class KalmanFilter:
     def update(self, z):
         z = np.asarray(z, dtype=self.x.dtype)
         if z.shape != (self.dim_z,):
-            raise ValueError(f"z must have shape ({self.dim_z},), got {z.shape}")
+            raise ValueError(
+                    f"z must have shape ({self.dim_z},), got {z.shape}"
+                    )
         # イノベーション
         y = z - (self.H @ self.x)
         # イノベーション共分散
