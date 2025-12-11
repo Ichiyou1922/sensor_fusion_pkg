@@ -5,6 +5,7 @@ def test_dummy_math():
 
 def test_logic_check():
     initial_p = 10.0
+    q = 1.0
     p_predicted = initial_p + q
     assert p_predicted > initial_p
 
