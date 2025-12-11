@@ -1,6 +1,7 @@
 # sensor_fusion_pkg
 - ROS2(Humble)向けのセンサフュージョンパッケージ．
 - 1次元温度センサ融合から始まり，任意次元，任意センサ数に拡張可能な汎用N次元カルマンフィルタノードを提供します．
+
 ## パッケージの内容
 - 1D専用フィルタ
 - N次元カルマンフィルタ
@@ -216,8 +217,23 @@ y_{k}=z_{k}-\hat z_{k}
 - この2つの操作を繰り返す．
 
 ## 必要なソフトウェア
+- Ubuntu-24.04.3-LTS
+- ROS2-Humble
+- Python-Package
+  - numpy
+  - pytest
+  - flake8
+  - pep257
 
 ## テスト環境
+- Ubuntu-24.04.3-LTS
+- ROS2-Humble
+- Python: 3.10
+- テスト実行コマンド例
+```bash
+$ colcon test --packages-select sensor_fusion_pkg
+$ colcon test-result --all
+```
 
 ## 権利について
 - このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布及び使用が許可されます．- © 2025 Kazuha Mogi
