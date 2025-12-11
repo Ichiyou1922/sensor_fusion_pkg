@@ -9,20 +9,27 @@ jobs:
       image: osrf/ros:humble-desktop
     steps:
       - uses: actions/checkout@v3
+        with:
+          path: ros2_ws/src/sendor_fusion_pkg
 
       - name: Build
         shell: bash
         run: | 
           source /opt/ros/humble/setup.bash
-          mkdir -p ros2_ws/src
-          cp -r $GITHUB_WORKSPACE ros2_ws/src/
           cd ros2_ws
+          # 依存関係の解決
+          rosdep update
+          rosdep install --from-paths src --ignore-src -y
+          # ビルド
           colcon build --packages-select sensor_fusion_pkg
 
       - name: Test
         shell: bash
         run: |
           surce /opt/ros/humble/setup.bash
+          surce /opt/ros/humble/setup.zsh
           cd ros2_ws
+          source install/setup.bash
+          source install/setup.zsh
           colcon test --packages-select sensor_fusion_pkg
           colcon test-result --verbose
