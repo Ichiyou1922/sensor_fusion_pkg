@@ -1,4 +1,11 @@
 # sensor_fusion_pkg
+
+## パッケージの内容
+
+## 使用詳細
+
+## 使用方法
+
 ## KalmanFilterの内部で保持するデータ類
 1. 状態推定ベクトル: $x\in \mathbb{R}^{n}$
 2. 共分散行列: $P\in \mathbb{R}^{n\times n}$
@@ -7,7 +14,6 @@
 5. 観測行列: $H\in \mathbb{R}^{m\times n}$
 6. 観測雑音共分散: $R\in \mathbb{R}^{n\times m}$
 7. 制御入力(option): $B$
-
 
 ## 理論
 1. 状態方程式
@@ -47,22 +53,27 @@ v_{k}\sim \mathcal{N}(0, \mathcal{R})
 ```math
 x_{k}=Fx_{k-1}+Bu_{k}+w_{k}
 ```
+
 - ガウス分布に線形変換をかけてもガウス分布のままだから，
 ```math
 x_{k}|z_{1:k-1}\sim \mathcal{\mu_{k}^{-},\mathcal{P}_{k}^{-}}
 ```
+
 - 平均(予測値)は
 ```math
 \mu_{k}^{-}=F\mu_{k-1}+Bu_{k}
 ```
+
 - 共分散(予測の不確かさ)は
 ```math
 \mathcal{P}_{k}^{-}=F\mathcal{P}_{k-1}F^{T}+\mathcal{Q}
 ```
+
 - 右辺第1項目
 ```math
 F\mathcal{P}_{k-1}F^{T}
-``` 
+```
+
 では以前の推定の不確かさがモデルに従って広がる．
 - $\mathcal{Q}$ が大きければフィルタはモデルを信用しない．逆なら信用する．
 - 今回 $u_{k}, B = 0$ だから，予測ステップは
@@ -72,39 +83,53 @@ F\mathcal{P}_{k-1}F^{T}
 ```math
 \mathcal{P}_{k}^{-}=F\mathcal{P}_{k-1}F^{T}+\mathcal{Q}
 ```
+
 4. 更新
 - 観測予測
 ```math
 \hat z_{k}=\mathcal{H}\mu_{k}^{-}
 ```
+
   - 観測値が来る前にフィルタが予測するもの．
 - イノベーション
 ```math
 y_{k}=z_{k}-\hat z_{k}
 ```
+
   - 予測と現実のズレ
 - イノベーション共分散
 ```math
 \mathcal{S}_{k}=\mathcal{H}\mathcal{P}_{k}^{-}\mathcal{H}^{T}+\mathcal{R}
 ```
+
   - この値が大きいほど観測の信頼度が低い．
 - カルマンゲイン
 ```math
 \mathcal{K}_{k}=\mathcal{P}_{k}^{-}\mathcal{H}^{T}\mathcal{S}_{k}^{-1}
 ```
+
   - 予測の不確かさ $P_{k}^{-1}$ が大きい-> $K_{k}$ が大きくなる．
   - 観測の不確かさ $R$ が大きい-> $S_{k}$ が大きい-> $K_{k}$ が小さくなる．
 - 最終的な事後平均
 ```math
 \mu_{k}=\mu_{k}^{-}+\mathcal{K}_{k}y_{k}
 ```
+
   - 予測に「ズレ×どれだけ観測を信じるか」を足す．
 - 最終的な事後共分散
 ```math
 \mathcal{P}_{k}=(\mathcal{I}-\mathcal{K}_{k}\mathcal{H}\mathcal{P}_{k}^{-})
 ```
+
   - 更新後の不確かさを表す．
 
 - 予測ステップ: 時間発展によって事前分布を計算する．
 - 更新ステップ: 観測に基づいて事後分布を計算する．
 - この2つの操作を繰り返す．
+
+## 必要なソフトウェア
+
+## テスト環境
+
+## 権利について
+- このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布及び使用が許可されます．- © 2025 Kazuha Mogi
