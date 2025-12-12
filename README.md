@@ -156,7 +156,7 @@ $ ros2 topic echo /kf_state
 3. 状態遷移行列: $F\in \mathbb{R}^{n\times n}$
 4. プロセス雑音共分散: $Q\in \mathbb{R}^{n\times n}$
 5. 観測行列: $H\in \mathbb{R}^{m\times n}$
-6. 観測雑音共分散: $R\in \mathbb{R}^{n\times m}$
+6. 観測雑音共分散: $R\in \mathbb{R}^{m\times m}$
 7. 制御入力(option): $B$
 
 ## 理論
