@@ -274,6 +274,7 @@ y_{k}=z_{k}-\hat z_{k}
 ## 必要なソフトウェア
 - Ubuntu-24.04.3-LTS
 - ROS2-Humble
+- Python: 3.10
 - Python-Package
   - numpy
   - pytest
