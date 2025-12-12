@@ -3,7 +3,7 @@
 import numpy as np
 import pytest
 
-from sensor_fusion_pkg.kalman_filters import KalmanFilter
+from sensor_fusion_pkg.filters.kalman_filters import KalmanFilter
 
 
 # predict(), update()のテスト
