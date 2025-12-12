@@ -1,0 +1,10 @@
+[flake8]
+# 自動生成物は lint 対象から外す
+exclude =
+    build,
+    install,
+    .git,
+    __pycache__
+
+# 既に ROS2 のテンプレが 99 にしているので，ここも揃えておく
+max-line-length = 99
