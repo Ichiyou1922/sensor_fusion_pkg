@@ -1,6 +1,6 @@
 import pytest
 
-from sensor_fusion_pkg.generic_kf_node import validate_dim_and_topics
+from sensor_fusion_pkg.nodes.generic_kf_node import validate_dim_and_topics
 
 
 def test_validate_dim_and_topics_accepts_matching_length():
