@@ -43,4 +43,3 @@ jobs:
           TEST_RC=$?
           set -e
           exit $TEST_RC
-
