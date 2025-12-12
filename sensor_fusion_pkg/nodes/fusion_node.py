@@ -4,7 +4,7 @@ import rclpy
 from rclpy.node import Node
 import numpy as np
 from std_msgs.msg import Float64
-from .kalman_filters import KalmanFilter
+from sensor_fusion_pkg.filters.kalman_filters import KalmanFilter
 
 
 class FusionNode(Node):
