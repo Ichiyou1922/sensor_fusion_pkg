@@ -159,23 +159,10 @@ ros2 topic echo /kf_state
 
 - `dim_z`に与えた数と`H`の行数が一致していない
 - センサtopicの数が`dim_z`と一致していないなど
+
 1. `Float64MultiArray`に複数の型がpublishされている
 
 - 現在`generic_kf_node`に統一されているため改善されているはずです
-
-## テストについて
-
-- 本パッケージは以下の性質をpytestにより検証している．
-  - predictで共分散が増加すること．
-  - updateで共分散が減少すること．
-  - 2センサのノイズ反転で推定バイアスが反転すること．
-  - shape mismatchを正しく検出すること．
-  - Nステップで推定値が理論通りに収束すること．
-- テストコード: `test_kalman`
-- CIでは以下も確認済み．
-  - `flake8`
-  - `pep257`
-  - `copyright`
 
 ## KalmanFilterの内部で保持するデータ類
 
@@ -186,17 +173,6 @@ ros2 topic echo /kf_state
 5. 観測行列: $H\in \mathbb{R}^{m\times n}$
 6. 観測雑音共分散: $R\in \mathbb{R}^{m\times m}$
 7. 制御入力(option): $B$
-
-## 必要なソフトウェア
-
-- Ubuntu-24.04.3-LTS
-- ROS2-Humble
-- Python: 3.10
-- Python-Package
-  - numpy
-  - pytest
-  - flake8
-  - pep257
 
 ## テスト環境
 
