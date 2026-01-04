@@ -26,7 +26,7 @@ def generate_launch_description():
         ),
 
         DeclareLaunchArgument(
-            'use_sim_sensor',
+            'use_sim_sensors',
             default_value='true',
             description='Whether to launch simulated noisy sensors'
         ),
