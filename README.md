@@ -125,7 +125,7 @@ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
 すでに用意されている `generic_kf_4d2sens.yaml` を使用する例です．
 
 ```bash
-$ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
+ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
   param_file:=install/sensor_fusion_pkg/share/sensor_fusion_pkg/config/generic_kf_4d2sens.yaml
 ```
 
