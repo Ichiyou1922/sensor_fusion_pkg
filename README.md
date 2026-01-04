@@ -2,65 +2,83 @@
 
 # sensor_fusion_pkg
 
-- ROS2(Humble)向けのセンサフュージョンパッケージ．
-- 1次元温度センサ融合から始まり，任意次元，任意センサ数に拡張可能な汎用N次元カルマンフィルタノードを提供します．
+ROS 2 (Humble) 向けのセンサフュージョンパッケージです．
+1次元の温度センサ融合から始まり，任意次元のシステムや任意のセンサ数に拡張可能な，汎用N次元カルマンフィルタノードを提供します．
 
-## パッケージの内容
+## パッケージの特徴
 
-- 1D専用フィルタ
-- N次元カルマンフィルタ
-- 複数センサの同時処理に対応
-- 観測行列，雑音行列のshape checkにより例外を投げます．
-- pytestによる強固な単体テスト．
-- `flake8`, `pep257`, `copyright`．
-- `launch`ファイルを使用した容易な実行．
+- **1D専用フィルタ**: 単純な1次元モデルの融合例を提供
+- **N次元カルマンフィルタ**: 任意次元の状態空間モデルに対応
+- **複数センサの同時処理**: 任意の数のセンサ入力をサポート
+- **堅牢な設計**: 観測行列や雑音行列の次元整合性を厳密にチェックし，異常時は例外を送出
+- **品質保証**:
+  - `pytest` による十分なテストカバレッジ
+  - `flake8`, `pep257` 準拠のコード
+  - 著作権表記 (`copyright`) の整備
+- **容易な実行**: `launch` ファイルを使用し，パラメータファイル (`yaml`) を切り替えるだけで実行可能
 
 ## 含まれるノード
 
-#### noisy_sensor
-
-- ランダムノイズを含むセンサ
-- パラメータ
+### `noisy_sensor`
+ランダムノイズを付加した模擬センサデータを配信します．
+- **パラメータ**
   - `variance`: ノイズの分散
-  - `sensor_id`: 出力トピック番号
+  - `sensor_id`: 出力トピックのID番号（例: `1` なら `sensor_1/data`）
 
-#### fusion_node
+### `fusion_node`
+固定の1次元モデル（温度推定など）を使用した最小構成のデモ用ノードです．
+- 状態: 1次元
+- センサ: 2つの入力を融合
 
-- 状態1次元
-- センサ2本
-- 固定の観測モデルによる温度推定
-- 最小構成
+### `generic_kf_node`
+設定ファイルにより挙動を変更できる汎用カルマンフィルタノードです．
+- **入力パラメータ**
+  - `dim_x` (int): 状態ベクトルの次元
+  - `dim_z` (int): 観測ベクトルの次元
+  - `sensor_topics` (list[str]): 各観測に対応するトピック名のリスト
+  - `F` (list[float]): 状態遷移行列 (dim_x × dim_x)
+  - `Q` (list[float]): プロセス雑音共分散行列 (dim_x × dim_x)
+  - `H` (list[float]): 観測行列 (dim_z × dim_x)
+  - `R` (list[float]): 観測雑音共分散行列 (dim_z × dim_z)
+  - `x0` (list[float]): 初期状態ベクトル
+  - `P0` (list[float]): 初期誤差共分散行列
+- **機能**
+  - 初期化時に行列サイズの整合性をチェック（不一致の場合は `ValueError`）
+  - 全状態推定値を `Float64MultiArray` として `/kf_state` に配信
 
-#### generic_kf_node
+## トピック
 
-- 汎用N次元カルマンフィルタノード
-- 入力パラメータ
-  - `dim_x`: int型/状態ベクトル次元
-  - `dim_z`: int型/観測ベクトル次元
-  - `sensor_topics`: list[str]型/各観測に対応するトピック名
-  - `F`: list[list[float]]型/状態遷移行列(dim_x ×dim_x)
-  - `Q`: list[list[float]]型/プロセス雑音共分散
-  - `H`: list[list[float]]型/観測行列(dim_z×dim_x)
-  - `R`: list[list[float]]型/観測雑音共分散(dim_z×dim_z)
-  - `x0`: list[float]型/初期状態
-  - `P0`: list[list[float]]型/初期共分散
-- チェック機能
-  - 行列サイズが一致しない場合`ValueError`
-  - センサ数 $\neq$ dim_zの場合も`ValueError`
-  - 全データはFloat64MultiArrayとして`/kf_state`にpublish
+### Subscribed Topics
+
+- `sensor_1/data` (std_msgs/msg/Float64)
+  - `fusion_node` が購読するセンサ1のデータ
+- `sensor_2/data` (std_msgs/msg/Float64)
+  - `fusion_node` が購読するセンサ2のデータ
+- *Any topic specified in parameters* (std_msgs/msg/Float64)
+  - `generic_kf_node` はパラメータ `sensor_topics` で指定されたリストのトピックをすべて購読します
+
+### Published Topics
+
+- `fused_estimate` (std_msgs/msg/Float64)
+  - `fusion_node` が出力する融合推定値（状態の第1要素）
+- `/kf_state` (std_msgs/msg/Float64MultiArray)
+  - `generic_kf_node` が出力する状態ベクトル全体．トピック名はパラメータ `output_topic` で変更可能
+- `sensor_{id}/data` (std_msgs/msg/Float64)
+  - `noisy_sensor` が出力するノイズ付きデータ
 
 ## 実行方法
 
-- 1D温度融合
+### 1D 温度融合デモ
+最もシンプルな構成での実行例です．
 
 ```bash
 ros2 launch sensor_fusion_pkg fusion_system.launch.py
 ```
 
-- 汎用KFの起動
-`sensor_fusion_pkg/config/`内の`yaml`ファイルに設定値を与える．
-- 最小構成例: 2センサ1次元状態を推定するKF
+### 汎用KFの実行
+`sensor_fusion_pkg/config/` 内の `yaml` ファイルで設定を記述し，launch 引数として渡します．
 
+#### 設定例 1: 最小構成 (2センサ・1次元状態)
 ```yaml
 generic_kf_node:
   ros__parameters:
@@ -70,7 +88,7 @@ generic_kf_node:
       - "/sensor_1/data"
       - "/sensor_2/data"
 
-    # x_k = x_{k-1} とする（定常温度モデル）
+    # 定常モデル: x_k = x_{k-1}
     F: [1.0]
     H: [[1.0],
         [1.0]]
@@ -80,113 +98,60 @@ generic_kf_node:
 
     x0: [0.0]
     P0: [[1.0]]
-
 ```
-
-- 以下でlaunch
-
+実行コマンド:
 ```bash
 ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
 ```
 
-- 4次現状態: 例えば $[x, \dot x, y, \dot y]$ など
-- 以下は既に用意された`generic_kf_4d2sens.yaml`
-
-```yaml
-generic_kf_node:
-  ros__parameters:
-    # 4 次元状態: [x, vx, y, vy]^T
-    dim_x: 4
-    # 観測は2次元: [x_meas, y_meas]^T
-    dim_z: 2
-
-    # センサトピック
-    sensor_topics:
-      - /sensor_1/data
-      - /sensor_2/data
-
-    # 状態遷移行列 F (4x4) をフラットなリストで
-    F: [1.0, 1.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 1.0,
-        0.0, 0.0, 0.0, 1.0]
-
-    # プロセス雑音共分散 Q (4x4)
-    Q: [0.01, 0.0,  0.0,  0.0,
-        0.0,  0.1,  0.0,  0.0,
-        0.0,  0.0,  0.01, 0.0,
-        0.0,  0.0,  0.0,  0.1]
-
-    # 観測行列 H (2x4)
-    H: [1.0, 0.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0]
-
-    # 観測雑音共分散 R (2x2)
-    R: [1.0, 0.0,
-        0.0, 5.0]
-
-    # 初期状態 x0 (4,)
-    x0: [0.0, 0.0, 0.0, 0.0]
-
-    # 初期共分散 P0 (4x4)
-    P0: [100.0, 0.0,   0.0,   0.0,
-         0.0,   10.0,  0.0,   0.0,
-         0.0,   0.0,   100.0, 0.0,
-         0.0,   0.0,   0.0,   10.0]
-
-```
-
-- 使用するyamlファイルを選択(今回`generic_kf_4d2sens.yaml`)
+#### 設定例 2: 4次元状態 (位置・速度 $x, \dot{x}, y, \dot{y}$)
+すでに用意されている `generic_kf_4d2sens.yaml` を使用する例です．
 
 ```bash
-$ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
+ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
   param_file:=install/sensor_fusion_pkg/share/sensor_fusion_pkg/config/generic_kf_4d2sens.yaml
 ```
 
-- `echo`などで確認
-
+トピックの確認:
 ```bash
 ros2 topic echo /kf_state
 ```
 
-- publishされるトピック
-  - /kf_state: Float64MultiArray型/事後状態推定値
-  - /sensor_i/data: Float64型/観測された生データ
+## よくあるエラーと対処
 
-## よくあるエラー
+1. **行列サイズの不一致 (`ValueError`)**
+   - パラメータ `dim_z` の値と `H` の行数が一致していない
+   - `sensor_topics` リストの長さが `dim_z` と一致していない
+   - `x0` や `P0` の要素数が `dim_x` と整合していない
 
-1. 行列サイズの不一致
+2. **トピックの型エラー**
+   - 現在，入力は全て `std_msgs/msg/Float64` を想定しています．
 
-- `dim_z`に与えた数と`H`の行数が一致していない
-- センサtopicの数が`dim_z`と一致していないなど
+## 内部データ構造
 
-1. `Float64MultiArray`に複数の型がpublishされている
+KalmanFilter クラスは以下の行列・ベクトルを保持します．
 
-- 現在`generic_kf_node`に統一されているため改善されているはずです
-
-## KalmanFilterの内部で保持するデータ類
-
-1. 状態推定ベクトル: $x\in \mathbb{R}^{n}$
-2. 共分散行列: $P\in \mathbb{R}^{n\times n}$
-3. 状態遷移行列: $F\in \mathbb{R}^{n\times n}$
-4. プロセス雑音共分散: $Q\in \mathbb{R}^{n\times n}$
-5. 観測行列: $H\in \mathbb{R}^{m\times n}$
-6. 観測雑音共分散: $R\in \mathbb{R}^{m\times m}$
-7. 制御入力(option): $B$
+1. **状態推定ベクトル**: $x \in \mathbb{R}^{n}$
+2. **誤差共分散行列**: $P \in \mathbb{R}^{n \times n}$
+3. **状態遷移行列**: $F \in \mathbb{R}^{n \times n}$
+4. **プロセス雑音共分散**: $Q \in \mathbb{R}^{n \times n}$
+5. **観測行列**: $H \in \mathbb{R}^{m \times n}$
+6. **観測雑音共分散**: $R \in \mathbb{R}^{m \times m}$
+7. **制御入力行列 (Optional)**: $B$
 
 ## テスト環境
 
-- Ubuntu-24.04.3-LTS
-- ROS2-Humble
-- Python: 3.10
-- テスト実行コマンド例
+- **OS**: Ubuntu 24.04.3 LTS
+- **ROS Distro**: ROS 2 Humble
+- **Python**: 3.10+
 
+テスト実行コマンド:
 ```bash
 colcon test --packages-select sensor_fusion_pkg
 colcon test-result --all
 ```
 
-## 権利について
+## ライセンス
 
-- このソフトウェアパッケージは，3条項BSDライセンスの下，再頒布及び使用が許可されます．
-- © 2025 Kazuha Mogi
+本パッケージは **BSD-3-Clause License** の下で公開されています．
+© 2025 Kazuha Mogi
