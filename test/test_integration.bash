@@ -31,14 +31,14 @@ echo "=========================================================="
 set -xv
 
 # 1. Launchを裏で起動 (センサノードを無効化する!)
-ros2 launch sensor_fusion_pkg generic_kf_system.launch.py use_sim_sensors:=false >/dev/null 2>&1 &
+ros2 launch sensor_fusion_pkg generic_kf_system.launch.py use_sim_sensors:=true >/dev/null 2>&1 &
 PID_LAUNCH=$!
 sleep 5
 
 # 2. テスト入力: sensor_1 と sensor_2 の両方に 10.0 を投入
 # 設定ファイルが2入力(dim_z=2)を期待しているため，片方だけだと同期待ちで止まるリスクがある
-ros2 topic pub -r 10 /sensor_1/data std_msgs/msg/Float64 "{data: 10.0}" 2>&1 & # >/dev/null 2>&1 &
-ros2 topic pub -r 10 /sensor_2/data std_msgs/msg/Float64 "{data: 10.0}" 2>&1 & # >/dev/null 2>&1 &
+ros2 topic pub -r 10 /sensor_1/data std_msgs/msg/Float64 "{data: 10.0}" >/dev/null 2>&1 &
+ros2 topic pub -r 10 /sensor_2/data std_msgs/msg/Float64 "{data: 10.0}" >/dev/null 2>&1 &
 
 sleep 3 # 収束待ち
 
