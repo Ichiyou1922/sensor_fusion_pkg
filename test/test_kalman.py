@@ -5,9 +5,16 @@ import pytest
 
 from sensor_fusion_pkg.filters.kalman_filters import KalmanFilter
 
+def print_matrix(name, mat):
+    print(f"\n[ {name}]")
+    print(mat)
 
 # predict(), update()のテスト
 def test_kalman_1d_no_noise():
+    print("\n" + "="*60)
+    print(" TEST CASE: 1D Ideal Model (No Noise)")
+    print("="*60)
+
     # 1次元の理想的なモデル
     x0 = np.array([0.0])        # 初期状態 x0 = 0
     P0 = np.array([[1.0]])      # 初期共分散 P0 = 1
@@ -16,16 +23,37 @@ def test_kalman_1d_no_noise():
     H = np.array([[1.0]])      # 状態をそのまま観測
     R = np.array([[0.0]])      # 観測ノイズなし
 
+    print_matrix("Initial State (x0)", x0)
+    print_matrix("Initial Covariance (P0)", P0)
+    print_matrix("Process Noise (Q)", Q)
+    print_matrix("Measurement Noise (R)", R)
+
     kf = KalmanFilter(x0, P0, F, Q, H, R)
     z = np.array([10.0])        # 観測値 z = 10
 
+    print(f"\n>>>  Input Measurement (z): {z}")
+
     # 予測＋更新
     kf.predict()
-    kf.update(z)
+    print("\n--- After Predict ---")
+    print(f"Pred State: {kf.x}")
+    print(f"Pred Cov  :\n{kf.P}")
 
+    kf.update(z)
+    print("\n--- After Update ---")
+    print(f"Post State: {kf.x}")
+    print(f"Post Cov  :\n{kf.P}")
+
+    expected_x = np.array([10.0])
+    expected_P = np.array([[0.0]])
+
+    print(f"\n>> Expectation: x={expected_x}, P={expected_P}")
+    
     # 理論的に x は 10，P は 0 になっていなければならない
     assert np.allclose(kf.x, np.array([10.0]))
     assert np.allclose(kf.P, np.array([[0.0]]))
+
+    print("\n[ RESULT ] OK")
 
 
 def _valid_params_1d():
