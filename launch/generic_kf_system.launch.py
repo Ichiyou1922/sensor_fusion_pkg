@@ -24,11 +24,18 @@ def generate_launch_description():
             description='Kalman Filter parameter YAML file'
         ),
 
+        DeclareLaunchArgument(
+            'use_sim_sensor',
+            default_value='true',
+            description='Whether to launch simulated noisy sensors'
+        ),
+
         Node(
             package=pkg_name,
             executable='noisy_sensor',
             name='sensor_precise',
             parameters=[{'variance': 1.0, 'sensor_id': 1}],
+            condition=IfCondition(LaunchConfiguration('use_sim_sensors'))
         ),
 
         Node(
@@ -36,6 +43,7 @@ def generate_launch_description():
             executable='noisy_sensor',
             name='sensor_noisy',
             parameters=[{'variance': 5.0, 'sensor_id': 2}],
+            condition=IfCondition(LaunchConfiguration('use_sim_sensors'))
         ),
 
         Node(
