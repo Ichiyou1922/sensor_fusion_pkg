@@ -16,22 +16,32 @@ ROS 2 (Humble) 向けのセンサフュージョンパッケージです．
   - `flake8`, `pep257` 準拠のコード
   - 著作権表記 (`copyright`) の整備
 - **容易な実行**: `launch` ファイルを使用し，パラメータファイル (`yaml`) を切り替えるだけで実行可能
+- **アルゴリズム詳細**: [doc/ALGORITHM.md](doc/ALGORITHM.md)
+  - 状態方程式，観測方程式，カルマンゲインの導出過程を記述．
+- **テスト仕様**: [doc/TESTING.md](doc/TESTING.md)
+  - 検証項目とテストケースの詳細．
 
 ## 含まれるノード
 
 ### `noisy_sensor`
+
 ランダムノイズを付加した模擬センサデータを配信します．
+
 - **パラメータ**
   - `variance`: ノイズの分散
   - `sensor_id`: 出力トピックのID番号（例: `1` なら `sensor_1/data`）
 
 ### `fusion_node`
+
 固定の1次元モデル（温度推定など）を使用した最小構成のデモ用ノードです．
+
 - 状態: 1次元
 - センサ: 2つの入力を融合
 
 ### `generic_kf_node`
+
 設定ファイルにより挙動を変更できる汎用カルマンフィルタノードです．
+
 - **入力パラメータ**
   - `dim_x` (int): 状態ベクトルの次元
   - `dim_z` (int): 観測ベクトルの次元
@@ -70,16 +80,19 @@ ROS 2 (Humble) 向けのセンサフュージョンパッケージです．
 ## 実行方法
 
 ### 1D 温度融合デモ
+
 最もシンプルな構成での実行例です．
 
 ```bash
-$ ros2 launch sensor_fusion_pkg fusion_system.launch.py
+ros2 launch sensor_fusion_pkg fusion_system.launch.py
 ```
 
 ### 汎用KFの実行
+
 `sensor_fusion_pkg/config/` 内の `yaml` ファイルで設定を記述し，launch 引数として渡します．
 
 #### 設定例 1: 最小構成 (2センサ・1次元状態)
+
 ```yaml
 generic_kf_node:
   ros__parameters:
@@ -100,12 +113,15 @@ generic_kf_node:
     x0: [0.0]
     P0: [[1.0]]
 ```
+
 実行コマンド:
+
 ```bash
-$ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
+ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
 ```
 
 #### 設定例 2: 4次元状態 (位置・速度 $x, \dot{x}, y, \dot{y}$)
+
 すでに用意されている `generic_kf_4d2sens.yaml` を使用する例です．
 
 ```bash
@@ -114,8 +130,9 @@ $ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
 ```
 
 トピックの確認:
+
 ```bash
-$ ros2 topic echo /kf_state
+ros2 topic echo /kf_state
 ```
 
 ## よくあるエラーと対処
@@ -146,9 +163,10 @@ KalmanFilter クラスは以下の行列・ベクトルを保持します．
 - **Python**: 3.10+
 
 テスト実行コマンド:
+
 ```bash
-$ colcon test --packages-select sensor_fusion_pkg
-$ colcon test-result --all
+colcon test --packages-select sensor_fusion_pkg
+colcon test-result --all
 ```
 
 ## ライセンス
