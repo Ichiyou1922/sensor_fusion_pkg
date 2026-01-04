@@ -75,6 +75,11 @@ def test_init_raises_on_x0_shape_mismatch():
     x0, P0, F, Q, H, R = _valid_params_1d()
     # x0 を(2,) にしてわざと壊す
     bad_x0 = np.array([0.0, 1.0])
+
+    print(f"Input x0 shape: {bad_x0.shape} (Invalid)")
+    print(f"Input P0 shape: {P0.shape}     (Valid 1x1)")
+    print("Expected: ValueError due to shape mismatch")
+
     with pytest.raises(ValueError):
         KalmanFilter(bad_x0, P0, F, Q, H, R)
     print("\n[ RESULT ] Raised ValueError as expected")
@@ -88,6 +93,11 @@ def test_init_raises_on_P0_shape_mismatch():
     x0, P0, F, Q, H, R = _valid_params_1d()
     # P0 を(2,2) にしてわざと壊す
     bad_P0 = np.eye(2)
+
+    print(f"Input x0 shape: {x0.shape}     (Valid 1D)")
+    print(f"Input P0 shape: {bad_P0.shape} (Invalid 2x2)")
+    print("Expected: ValueError due to shape mismatch")
+
     with pytest.raises(ValueError):
         KalmanFilter(x0, bad_P0, F, Q, H, R)
     print("\n[ RESULT ] Raised ValueError as expected")
@@ -102,6 +112,11 @@ def test_init_raises_on_H_R_shape_mismatch():
     # H の行数とR のサイズを矛盾させる
     bad_H = np.array([[1.0],
                       [1.0]])      # 観測2次元だと主張
+    
+    print(f"Input H shape: {bad_H.shape} (2 rows -> implies 2D measurement)")
+    print(f"Input R shape: {R.shape}     (1x1 -> implies 1D measurement)")
+    print("Expected: ValueError due to H/R dimension mismatch")
+
     # なのに R は 1x1 のまま
     with pytest.raises(ValueError):
         KalmanFilter(x0, P0, F, Q, bad_H, R)
