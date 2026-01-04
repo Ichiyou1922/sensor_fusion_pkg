@@ -37,8 +37,6 @@ jobs:
           source /opt/ros/humble/setup.bash
           cd ros2_ws
           source install/setup.bash
-          python3 -m pytest src/sensor_fusion_pkg/test/test_flake8.py -vv || true
-          python3 -m pytest src/sensor_fusion_pkg/test/test_pep257.py -vv || true
           set +e
           colcon test --packages-select sensor_fusion_pkg
           colcon test-result --verbose
