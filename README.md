@@ -17,21 +17,21 @@
 
 ## 含まれるノード
 
-#### noisy_sensor.py
+#### noisy_sensor
 
 - ランダムノイズを含むセンサ
 - パラメータ
   - `variance`: ノイズの分散
   - `sensor_id`: 出力トピック番号
 
-#### fusion_node.py
+#### fusion_node
 
 - 状態1次元
 - センサ2本
 - 固定の観測モデルによる温度推定
 - 最小構成
 
-#### generic_kf_node.py
+#### generic_kf_node
 
 - 汎用N次元カルマンフィルタノード
 - 入力パラメータ
