@@ -54,8 +54,9 @@ ROS 2 (Humble) 向けのセンサフュージョンパッケージです．
   - `fusion_node` が購読するセンサ1のデータ
 - `sensor_2/data` (std_msgs/msg/Float64)
   - `fusion_node` が購読するセンサ2のデータ
-- *Any topic specified in parameters* (std_msgs/msg/Float64)
-  - `generic_kf_node` はパラメータ `sensor_topics` で指定されたリストのトピックをすべて購読します
+- **パラメータ `sensor_topics` で指定したトピック** (std_msgs/msg/Float64)
+  - `generic_kf_node` は，パラメータリスト `sensor_topics` に含まれる全てのトピックを自動的に購読します．
+  - 例: `['/camera/x', '/lidar/x']` と設定した場合，これらが入力トピックとなります．
 
 ### Published Topics
 
@@ -72,7 +73,7 @@ ROS 2 (Humble) 向けのセンサフュージョンパッケージです．
 最もシンプルな構成での実行例です．
 
 ```bash
-ros2 launch sensor_fusion_pkg fusion_system.launch.py
+$ ros2 launch sensor_fusion_pkg fusion_system.launch.py
 ```
 
 ### 汎用KFの実行
@@ -101,20 +102,20 @@ generic_kf_node:
 ```
 実行コマンド:
 ```bash
-ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
+$ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py
 ```
 
 #### 設定例 2: 4次元状態 (位置・速度 $x, \dot{x}, y, \dot{y}$)
 すでに用意されている `generic_kf_4d2sens.yaml` を使用する例です．
 
 ```bash
-ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
+$ ros2 launch sensor_fusion_pkg generic_kf_system.launch.py \
   param_file:=install/sensor_fusion_pkg/share/sensor_fusion_pkg/config/generic_kf_4d2sens.yaml
 ```
 
 トピックの確認:
 ```bash
-ros2 topic echo /kf_state
+$ ros2 topic echo /kf_state
 ```
 
 ## よくあるエラーと対処
@@ -147,11 +148,11 @@ KalmanFilter クラスは以下の行列・ベクトルを保持します．
 
 テスト実行コマンド:
 ```bash
-colcon test --packages-select sensor_fusion_pkg
-colcon test-result --all
+$ colcon test --packages-select sensor_fusion_pkg
+$ colcon test-result --all
 ```
 
 ## ライセンス
 
-本パッケージは **BSD-3-Clause License** の下で公開されています．
-© 2025 Kazuha Mogi
+- 本パッケージは **BSD-3-Clause License** の下で公開されています．
+- © 2025 Kazuha Mogi
