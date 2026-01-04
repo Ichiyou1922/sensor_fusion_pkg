@@ -138,7 +138,6 @@ KalmanFilter クラスは以下の行列・ベクトルを保持します．
 4. **プロセス雑音共分散**: $Q \in \mathbb{R}^{n \times n}$
 5. **観測行列**: $H \in \mathbb{R}^{m \times n}$
 6. **観測雑音共分散**: $R \in \mathbb{R}^{m \times m}$
-7. **制御入力行列 (Optional)**: $B$
 
 ## テスト環境
 

@@ -39,7 +39,7 @@ x_{k}=Fx_{k-1}+Bu_{k}+w_{k}
 
 - ガウス分布に線形変換をかけてもガウス分布のままだから，
 ```math
-x_{k}|z_{1:k-1}\sim \mathcal{\mu_{k}^{-},\mathcal{P}_{k}^{-}}
+x_{k}|z_{1:k-1}\sim \mathcal{N}(\mu_{k}^{-},\mathcal{P}_{k}^{-})
 ```
 
 - 平均(予測値)は
