@@ -17,7 +17,6 @@ def test_kalman_1d_no_noise():
     R = np.array([[0.0]])      # 観測ノイズなし
 
     kf = KalmanFilter(x0, P0, F, Q, H, R)
-
     z = np.array([10.0])        # 観測値 z = 10
 
     # 予測＋更新

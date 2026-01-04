@@ -37,8 +37,10 @@ jobs:
           source /opt/ros/humble/setup.bash
           cd ros2_ws
           source install/setup.bash
+          python3 -m pytest src/sensor_fusion_pkg/test/test_kalman.py -s -v
+          python3 -m pytest src/sensor_fusion_pkg/test/test_generic_kf_kalman.py -s -v
           set +e
-          colcon test --packages-select sensor_fusion_pkg
+          colcon test --packages-select sensor_fusion_pkg --event-handlers console_direct+
           colcon test-result --verbose
           TEST_RC=$?
           set -e
